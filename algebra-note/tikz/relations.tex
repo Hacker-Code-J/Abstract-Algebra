@@ -1,0 +1,51 @@
+\begin{tikzpicture}[>=Stealth, node distance=1cm and 2cm]
+	% Styles for sets, elements, and annotations
+	\tikzset{
+		set node/.style={rectangle, draw, thick, fill=orange!20, minimum size=5mm, align=center},
+		relation arrow/.style={->, thick, #1},
+		element node/.style={circle, draw, thick, fill=yellow!20, minimum size=5mm},
+		highlight/.style={draw, thick, dotted, inner sep=3pt}
+	}
+	
+	% Define nodes for elements
+	\node[] (a) {Set $A$};
+	\node[right=of a] (b) {Set $B$};
+	\node[element node, below=0.5cm of a] (a1) {1};
+	\node[element node, below of=a1] (a2) {2};
+	\node[element node, below of=a2] (a3) {3};
+	\node[element node, below=0.5cm of b] (b1) {1};
+	\node[element node, below of=b1] (b2) {2};
+	\node[element node, below of=b2] (b3) {3};
+	
+	% Draw relations
+	% Equality relation
+	\foreach \x in {1, 2, 3}
+	\draw[relation arrow=green!75!black] (a\x) -- (b\x);
+	%		% Less than relation
+	\draw[relation arrow=red] (a1) -- (b2);
+	\draw[relation arrow=red] (a1) -- (b3);
+	\draw[relation arrow=red] (a2) -- (b3);
+	\begin{scope}[xshift=6cm]
+		% Define nodes for elements
+		\node[] (aa) {Set $A$};
+		\node[right=of aa] (bb) {Set $B$};
+		\node[element node, below=0.5cm of aa] (a4) {1};
+		\node[element node, below of=a4] (a5) {2};
+		\node[element node, below of=a5] (a6) {3};
+		\node[element node, below=0.5cm of bb] (b4) {1};
+		\node[element node, below of=b4] (b5) {2};
+		\node[element node, below of=b5] (b6) {3};% Annotations for explanations
+		% Divisibility relation
+		\draw[relation arrow=blue] (a4) -- (b4);
+		\draw[relation arrow=blue] (a4) -- (b5);
+		\draw[relation arrow=blue] (a4) -- (b6);
+		\draw[relation arrow=blue] (a5) -- (b5);
+		\draw[relation arrow=blue] (a6) -- (b6);
+		\node[align=center, right=2cm of b4] (text) {
+			%				\textbf{Relations}\\
+			\textcolor{green!75!black}{Green arrows: Equality ($=$)}\\
+			\textcolor{red}{Red arrows: Less than ($<$)}\\
+			\textcolor{blue}{Blue arrows: Divisibility ($\mid$)}
+		};
+	\end{scope}
+\end{tikzpicture}

@@ -1,0 +1,139 @@
+\begin{minipage}{.48\textwidth}\adjustbox{scale=.75, center}{\begin{tikzpicture}[>=Stealth, thick, node distance=2 cm]
+		% Styles for different components
+		\tikzset{
+			main node/.style={circle, draw, fill=blue!20, minimum size=1cm, font=\sffamily},
+			class node/.style={ellipse, draw, thick, red, minimum height=2.5cm, minimum width=4cm, align=center},
+			path/.style={->, thick, shorten <=2pt, shorten >=2pt},
+			reflexive/.style={->, line width=1mm, loop, looseness=5, in=0, out=-90, red, opacity=.5},
+			symmetric/.style={->, line width=1mm, blue, bend left, opacity=.5},
+			transitive/.style={->, thick, green!75!black, bend left}
+			label distance=3mm
+		}
+		
+		% Nodes representing elements
+		\node[main node] (0) {0};
+		\node[main node] (1) [right of=0] {1};
+		\node[main node] (2) [right of=1] {2};
+		\node[main node] (3) [right of=2] {3};
+		\node[main node] (4) [right of=3] {4};
+		
+		\node[main node] (5) [below of=0] {5};
+		\node[main node] (6) [below of=1] {6};
+		\node[main node] (7) [below of=2] {7};
+		\node[main node] (8) [below of=3] {8};
+		\node[main node] (9) [below of=4] {9};
+		
+		\node[main node] (10) [below of=5] {10};
+		\node[main node] (11) [below of=6] {11};
+		\node[main node] (12) [below of=7] {12};
+		\node[main node] (13) [below of=8] {13};
+		\node[main node] (14) [below of=9] {14};
+		
+		\node at (4,2) {\Large $\Z$ with modulo 5};
+		
+		\foreach \x in {0,1,2,...,14} {
+			\draw[reflexive] (\x) to (\x);
+		}
+		
+		\foreach \x/\y in {
+			0/5, 5/10, 1/6, 6/11,
+			2/7, 7/12, 3/8, 8/13,
+			4/9, 9/14} {
+			\draw[symmetric] (\x) to (\y);
+			\draw[symmetric] (\y) to (\x);
+		}
+		
+		\foreach \a/\b in {
+			0/10, 1/11, 2/12, 3/13, 4/14} {
+			\draw[->, line width=1mm, green!75!black, bend left=20pt, opacity=.5] (\a) to (\b);
+			\draw[->, line width=1mm, green!75!black, bend left=20pt, opacity=.5] (\b) to (\a);
+		}
+		
+		%	 Nodes for equivalence classes
+		%			\node[class node, label={[red]above:Class $[1]$}, fit=(1)] {};
+		%			\node[class node, label={[red]above:Class $[2, 3]$}, fit=(2) (3)] {};
+		%			\node[class node, label={[red]above:Class $[4, 5]$}, fit=(4) (5)] {};
+		
+		% Connections showing relations (for illustration)
+		%			\draw[path] (2) to[bend left] (3);
+		%			\draw[path] (3) to[bend left] (2);
+		%			\draw[path] (4) to[bend left] (5);
+		%			\draw[path] (5) to[bend left] (4);
+		
+		% Annotations
+		%	\node[align=center, below=3cm of 3, text width=12cm] {
+			%		\large \textbf{Partition by Equivalence Relation}\\
+			%		This diagram illustrates how an equivalence relation partitions a set into disjoint equivalence classes. Each class, outlined in red, contains elements that are equivalent under the relation.\\
+			%		Arrows indicate specific relationships that define equivalence within classes. Classes $[2, 3]$ and $[4, 5]$ show internal symmetry, highlighting how elements within these groups are related to each other.
+			%	};
+		
+		% Background grid as optional visual enhancement
+		\begin{scope}[on background layer]
+			\draw[style=help lines, step=2cm] (0,0) grid (8,-6);
+		\end{scope}
+	\end{tikzpicture}}
+\end{minipage}\begin{minipage}{.48\textwidth}\adjustbox{scale=.75, center}{\begin{tikzpicture}[>=Stealth, thick, node distance=2 cm]
+	% Styles for different components
+	\tikzset{
+		main node/.style={circle, draw, fill=blue!20, minimum size=1cm, font=\sffamily},
+		class node/.style={dashed, thick, ellipse, draw, thick, red, minimum height=1cm, minimum width=1cm, align=center},
+		path/.style={->, thick, shorten <=2pt, shorten >=2pt},
+		reflexive/.style={->, line width=1mm, loop, looseness=5, in=0, out=-90, red, opacity=.5},
+		symmetric/.style={->, line width=1mm, blue, bend left, opacity=.5},
+		transitive/.style={->, thick, green!75!black, bend left}
+		label distance=3mm
+	}
+	
+	% Nodes representing elements
+	\node[main node] (0) {0};
+	\node[main node] (1) [right of=0] {1};
+	\node[main node] (2) [right of=1] {2};
+	\node[main node] (3) [right of=2] {3};
+	\node[main node] (4) [right of=3] {4};
+	
+	\node[main node] (5) [below of=0] {5};
+	\node[main node] (6) [below of=1] {6};
+	\node[main node] (7) [below of=2] {7};
+	\node[main node] (8) [below of=3] {8};
+	\node[main node] (9) [below of=4] {9};
+	
+	\node[main node] (10) [below of=5] {10};
+	\node[main node] (11) [below of=6] {11};
+	\node[main node] (12) [below of=7] {12};
+	\node[main node] (13) [below of=8] {13};
+	\node[main node] (14) [below of=9] {14};
+	
+%	\foreach \x in {0,1,2,...,14} {
+%		\draw[reflexive] (\x) to (\x);
+%	}
+%	
+%	\foreach \x/\y in {
+%		0/5, 5/10, 1/6, 6/11,
+%		2/7, 7/12, 3/8, 8/13,
+%		4/9, 9/14} {
+%		\draw[symmetric] (\x) to (\y);
+%		\draw[symmetric] (\y) to (\x);
+%	}
+%	
+%	\foreach \a/\b in {
+%		0/10, 1/11, 2/12, 3/13, 4/14} {
+%		\draw[->, line width=1mm, green!75!black, bend left=20pt, opacity=.5] (\a) to (\b);
+%		\draw[->, line width=1mm, green!75!black, bend left=20pt, opacity=.5] (\b) to (\a);
+%	}
+	
+	%	 Nodes for equivalence classes
+	\node[class node, label={[red]above:$[0]$}, fit=(0) (5) (10)] {};
+	\node[class node, label={[red]above:$[1]$}, fit=(1) (6) (11)] {};
+	\node[class node, label={[red]above:$[2]$}, fit=(2) (7) (12)] {};
+	\node[class node, label={[red]above:$[3]$}, fit=(3) (8) (13)] {};
+	\node[class node, label={[red]above:$[4]$}, fit=(4) (9) (14)] {};
+%	\node[class node, label={[red]above:Class $[2, 3]$}, fit=(2) (3)] {};
+%	\node[class node, label={[red]above:Class $[4, 5]$}, fit=(4) (5)] {};
+	
+	
+	% Background grid as optional visual enhancement
+	\begin{scope}[on background layer]
+		\draw[style=help lines, step=2cm] (0,0) grid (8,-6);
+	\end{scope}
+\end{tikzpicture}}
+\end{minipage}

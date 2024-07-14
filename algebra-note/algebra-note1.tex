@@ -1,0 +1,222 @@
+\documentclass[11pt,openany]{article}
+
+\input{algebra-preamble}
+\usepackage{caption}
+%Tikzpicture
+\usepackage{tikz}
+\usepackage{tikz-3dplot}
+\usepackage{tikz-cd}
+\usetikzlibrary{
+	3d, % For 3D drawing
+	angles,
+	arrows,
+	arrows.meta,
+	backgrounds,
+	bending,
+	calc,
+	decorations.pathmorphing,
+	decorations.pathreplacing,
+	fit,
+	matrix,
+	patterns,
+	patterns.meta,
+	positioning,
+	quotes,
+	shadows,
+	shapes,
+	shapes.geometric
+}
+
+\setstretch{1.25}
+\begin{document}
+\pagenumbering{arabic}
+\begin{center}
+	\huge\textbf{Equivalence Relations, Equivalence Classes,\\ Partitions, and Quotient Sets}\\
+	\vspace{0.5em}
+%	\Large\quad{대수학의 아름다움 서브-스터디}\\
+	\vspace{0.5em}
+	\normalsize{\today}\\
+\end{center}
+
+\section*{Cartesian Products / Set Products}
+\begin{center}
+\input{tikz/cartesian-products}
+\end{center}
+\begin{example*}
+	If $A=\set{1,2}$ and $B=\set{x,y}$, then: \[
+	A\times B=\set{(1,x),(1,y),(2,x),(2,y)}
+	\]
+\end{example*}
+\begin{definition*}
+	Let $A$ and $B$ are sets. \[
+	A\times B:=\set{(a,b)\mid a\in A\ \text{and}\ b\in B}
+	\]
+\end{definition*}
+
+\section*{Relations}
+\begin{center}
+\input{tikz/relations}
+\end{center}
+\begin{definition*}
+	Let $A$ and $B$ are sets. A \textbf{relation} $\mathcal{R}$ from $A$ to $B$ is a \emph{subset} of the Cartesian Product $A\times B$: \[
+	\mathcal{R}\subseteq A\times B
+	\]
+\end{definition*}
+\begin{notation*}
+	$$(a,b)\in\mathcal{R}\subseteq A\times B\iff a\mathrel{\mathcal{R}}b.$$ For example, $a=b\iff (a,b)\in\ =$
+\end{notation*}
+
+\section*{Equivalence Relations}
+\begin{center}
+\input{tikz/equivalence-relations}
+\end{center}
+\begin{example*}Equality on $\Z$: \begin{itemize}
+	\item $a\in \Z\implies a=a$;
+	\item $a=b\implies b=a$;
+	\item $a=b$ and $b=c$ $\implies a=c$.
+\end{itemize}
+%Modular $n$ on $\Z$: \begin{itemize}
+%	\item $a\in \Z\implies a\equiv a\pmod{n}$;
+%	\item $a\equiv b\pmod{n}\implies b\equiv a\pmod{n}$;
+%	\item $a\equiv b\pmod{n}$ and $b\equiv c\pmod{n}$ $\implies a\equiv c\pmod{n}$.
+%\end{itemize} Note that $a\equiv b\pmod{n}\overset{\text{def}}{\iff} n\mid a-b\overset{\text{def}}{\iff}\exists k\in\Z:kn=a-b$
+\end{example*}
+\begin{definition*}
+	Given a set $A$, a relation $\mathcal{R}\subseteq A\times A$ is called an \textbf{equivalence relation} if it satisfies following properties: \begin{itemize}
+		\item (Reflexivity) $a\in A\implies (a,a)\in{\mathcal{R}}$;
+		\item (Symmetry) $(a,b)\in \mathcal{R}\implies (b,a)\in \mathcal{R}$;
+		\item (Transitivity) $(a,b)\in\mathcal{R}\land (b,c)\in\mathcal{R}\implies (a,c)\in\mathcal{R}$.
+	\end{itemize}
+\end{definition*}
+
+\section*{Equivalence Classes}
+\begin{center}
+\input{tikz/equivalence-classes}
+\end{center}
+
+\section*{Quotient Sets}
+\begin{center}
+\input{tikz/quotient-sets}
+\end{center}
+
+
+\begin{tikzpicture}[>=Stealth, thick, node distance=2.5 cm]
+	% Styles for different elements and classes
+	\tikzset{
+		main node/.style={circle, draw, fill=blue!30, thick, minimum size=25pt, inner sep=0pt},
+		class node/.style={ellipse, draw, thick, dashed, fill=green!20, minimum width=3cm, minimum height=1.5cm},
+		path/.style={->, thick, shorten <=2pt, shorten >=2pt},
+		relation/.style={->, thick, bend left=20, red},
+		class label/.style={color=red, align=center}
+	}
+	
+	% Nodes representing elements
+	\node[main node] (a) {a};
+	\node[main node] (b) [right of=a] {b};
+	\node[main node] (c) [below of=a] {c};
+	\node[main node] (d) [right of=c] {d};
+	
+	% Class node
+	\node[class node, fit=(a) (b), label={[class label]above:Class $[a, b]$}] {};
+	\node[class node, fit=(c) (d), label={[class label]below:Class $[c, d]$}] {};
+	
+	% Relations indicating equivalence
+	\draw[relation] (a) to (b);
+	\draw[relation] (b) to (a);
+	\draw[relation] (c) to (d);
+	\draw[relation] (d) to (c);
+	
+	% Annotations
+	\node[align=left, text width=10cm, below=3cm of c] {
+		\large \textbf{Visualization of Quotient Sets}\\[2ex]
+		This diagram represents the partition of a set into quotient sets (equivalence classes) determined by an equivalence relation. Each quotient set groups elements that are equivalent under the relation, as shown by the red arrows.\\[1ex]
+		The quotient set $S/\sim$ is formed by the union of all distinct classes, each represented as a green ellipse.\\[1ex]
+		Arrows within classes signify the symmetry and reflexivity properties inherent to the equivalence relation. Elements not directly connected by arrows are understood to be distinct within the quotient structure.
+	};
+	
+	% Optional background for quotient set
+	\begin{scope}[on background layer]
+		\fill[blue!10] ($(a.north west)+(-0.3,0.3)$) rectangle ($(d.south east)+(0.3,-0.3)$);
+	\end{scope}
+\end{tikzpicture}\ \\
+\begin{tikzpicture}[>=Stealth, thick, node distance=2 cm, auto]
+	% Styles
+	\tikzset{
+		main node/.style={circle, draw, fill=blue!20, thick, minimum size=25pt, font=\sffamily\bfseries},
+		subgroup node/.style={circle, draw, fill=red!30, thick, minimum size=25pt, font=\sffamily\bfseries},
+		quotient node/.style={rectangle, draw, fill=green!20, thick, minimum size=25pt, align=center},
+		path/.style={->, thick, shorten <=2pt, shorten >=2pt},
+		group/.style={draw, dashed, fill=yellow!20, inner sep=10pt}
+	}
+	
+	% Nodes for group elements
+	\node[main node] (g) {g};
+	\node[subgroup node] (n) [below left=1.5cm and 1cm of g] {n};
+	\node[main node] (h) [below right=1.5cm and 1cm of g] {h};
+	
+	% Nodes for quotient set elements
+	\node[quotient node] (gN) [below=6cm of g] {\(gN\)};
+	\node[quotient node] (hN) [right of=gN] {\(hN\)};
+	
+	% Dashed group boundary
+	\node[group, fit=(g) (n) (h)] (group) {};
+	
+	% Paths
+	\draw[path] (g) -- node {mult} (n);
+	\draw[path] (g) -- node {mult} (h);
+	\draw[path] (n) -- node [swap] {mult} (h);
+	
+	% Mapping to quotient set
+	\draw[->, thick, decorate, decoration={snake, amplitude=.4mm, segment length=2mm, post length=1mm}] 
+	(g) to[out=-90, in=90] (gN);
+	\draw[->, thick, decorate, decoration={snake, amplitude=.4mm, segment length=2mm, post length=1mm}] 
+	(h) to[out=-90, in=90] (hN);
+	
+	% Annotations
+	\node[align=left, text width=12cm, below=1cm of gN] {
+		\textbf{Visualization of Quotient Sets}\\
+		The diagram represents a group \(G\) partitioned into quotient sets by a normal subgroup \(N\). Each quotient set element, such as \(gN\) and \(hN\), represents the set of all products of \(g\) with elements of \(N\).\\
+		This highlights how the quotient set \(G/N\) simplifies the structure of \(G\) by consolidating elements related by \(N\).
+	};
+	
+	% Background shading for quotient set
+	\begin{scope}[on background layer]
+		\fill[blue!10] ($(g.north west)+(-0.3,0.6)$) rectangle ($(h.south east)+(0.3,-6)$);
+	\end{scope}
+\end{tikzpicture}
+
+\newpage
+%\begin{tikzpicture}[scale=1.5]
+%	
+%	% Draw the outer circle representing group G
+%	\draw[thick] (0,0) circle (3cm);
+%	\node at (0,3.2) {$G$};
+%	
+%	% Draw the inner circle representing the normal subgroup N
+%	\draw[thick] (0,0) circle (1.5cm);
+%	\node at (0,1.7) {$N$};
+%	
+%	% Draw elements of G
+%	\foreach \angle in {0,45,...,315}
+%%	\filldraw (3cm*\angle:1pt) circle (2pt);
+%	
+%	% Draw elements of N
+%	\foreach \angle in {0,90,...,270}
+%	\filldraw (1.5cm*\angle:1pt) circle (2pt);
+%	
+%	% Draw arrows indicating normal subgroup property
+%%	\foreach \angle in {0,90,...,270} {
+%%		\draw[->,thick] (1.5cm*\angle:1.5cm) -- (3cm*\angle:3cm);
+%%		\draw[->,thick] (3cm*\angle:3cm) -- (1.5cm*\angle:1.5cm);
+%%	}
+%	
+%	% Draw label for G and N
+%	\node at (0,0) {$e$};
+%	
+%	% Draw cosets
+%	\node at (1.5, 0) {$gN$};
+%	\node at (-1.5, 0) {$hN$};
+%	
+%\end{tikzpicture}
+%\input{acp-note-bib}
+\end{document}

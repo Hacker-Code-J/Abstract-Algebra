@@ -1,0 +1,28 @@
+% pdflatex -shell-escape software-analysis-main.tex
+\documentclass[12pt,openany]{book}
+
+\input{preamble/package}
+\input{preamble/theorem}
+\input{preamble/layout}
+\input{preamble/tcolorbox}
+\input{preamble/tikz}
+\input{preamble/algorithm}
+\input{preamble/listing}
+\input{preamble/aa-commands}
+
+
+\begin{document}
+	
+	\input{aa-titlepage}
+	\tableofcontents
+	\newpage
+	
+	\chapter{Visual Group Theory}
+	\input{chapter/aa-chap1}
+	
+	% Appendix
+	\newpage
+	\appendix
+%	\input{appendix/appendix-A}
+	
+\end{document}

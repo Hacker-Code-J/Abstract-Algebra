@@ -1,0 +1,56 @@
+\adjustbox{scale=.9}{\begin{tikzpicture}[>=Stealth, thick, node distance=2cm, auto]
+	% Styles
+	\tikzset{
+		main node/.style={circle, draw, fill=blue!20, minimum size=30pt, font=\sffamily\Large},
+		class node/.style={dashed, ellipse, draw, thick, red, fill=red!20, minimum height=1cm, minimum width=1cm, align=center, opacity=.5}, % drop shadow
+		quotient node/.style={rectangle, draw, thick, fill=green!20, minimum size=30pt, font=\sffamily\Large, rounded corners},
+		path/.style={blue,->, thick, shorten <=2pt, shorten >=2pt, decorate},
+		%decoration={snake, amplitude=.4mm, segment length=2mm, post length=1mm}
+		label distance=2mm
+	}
+	
+	% Nodes representing elements of the set% Nodes representing elements
+	\node[main node] (0) {0};
+	\node[main node] (1) [right of=0] {1};
+	\node[main node] (2) [right of=1] {2};
+	\node[main node] (3) [right of=2] {3};
+	\node[main node] (4) [right of=3] {4};
+	
+	\node[main node] (5) [below of=0] {5};
+	\node[main node] (6) [below of=1] {6};
+	\node[main node] (7) [below of=2] {7};
+	\node[main node] (8) [below of=3] {8};
+	\node[main node] (9) [below of=4] {9};
+	
+	\node[main node] (10) [below of=5] {10};
+	\node[main node] (11) [below of=6] {11};
+	\node[main node] (12) [below of=7] {12};
+	\node[main node] (13) [below of=8] {13};
+	\node[main node] (14) [below of=9] {14};
+	
+%	% Nodes for equivalence classes
+	\node[class node, fit=(0) (5) (10)] (class0) {\Huge $\mathbf{[0]}$};
+	\node[class node, fit=(1) (6) (11)] (class1) {\Huge $\mathbf{[1]}$};
+	\node[class node, fit=(2) (7) (12)] (class2) {\Huge $\mathbf{[2]}$};
+	\node[class node, fit=(3) (8) (13)] (class3) {\Huge $\mathbf{[3]}$};
+	\node[class node, fit=(4) (9) (14)] (class4) {\Huge $\mathbf{[4]}$};
+	
+%	% Quotient set nodes
+	\node[quotient node, below=4cm of $(11)!0.5!(13)$] (qset) {$\{[0], [1], [2], [3], [4]\}$};
+%	
+%	% Paths for quotient set formation
+	\draw[path] (class0) to[out=-90, in=90] (qset);
+	\draw[path] (class1) to[out=-90, in=90] (qset);
+	\draw[path] (class2) to[out=-90, in=90] (qset);
+	\draw[path] (class3) to[out=-90, in=90] (qset);
+	\draw[path] (class4) to[out=-90, in=90] (qset);
+%	
+%	% Annotations and decorative lines
+	\node[align=center, above=2cm of $(1)!0.5!(3)$, font=\sffamily\Large] {Set $\Z$};
+	\node[align=center, below=0.5cm of qset, font=\sffamily\Large] {Quotient Set $\Z/5\Z$};
+	
+	% Background grid
+	\begin{scope}[on background layer]
+		\draw[style=help lines, step=2cm, gray, very thin] (0,0) grid (8,-6);
+	\end{scope}
+\end{tikzpicture}}

@@ -1,0 +1,17 @@
+\begin{tikzpicture}\tikzset{set node/.style={circle, draw, fill=blue!20, minimum size=2mm, inner sep=0pt}}
+	% Define the sets
+	\node at (0,4.5) {Set A};
+	\node at (5,4.5) {Set B};
+	\node[set node] at (0,4) (a1) {};
+	\node[set node] at (0,3) (a2) {};
+	\node[set node] at (0,2) (a3) {};
+	
+	\node[set node] at (5,4) (b1) {};
+	\node[set node] at (5,3) (b2) {};
+	\node[set node] at (5,2) (b3) {};
+	
+	% Connect every node from set A to every node from set B
+	\foreach \i in {1,2,3}
+	\foreach \j in {1,2,3}
+	\draw[-Stealth, blue, line width=.25mm] (a\i) -- (b\j);
+\end{tikzpicture}
