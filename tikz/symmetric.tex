@@ -1,0 +1,74 @@
+\begin{figure}[h!]
+	\centering
+	\begin{subfigure}[t]{0.3\textwidth}
+		\centering
+		\begin{tikzpicture}[scale=1, >=Stealth, node distance=2.5cm, thick, main/.style = {draw, circle}]
+			% Define styles
+			\tikzset{
+				reflexive/.style={->, loop, looseness=12, in=120, out=60, red},
+				symmetric/.style={->, blue, bend left},
+				transitive/.style={->, green!75!black}
+			}
+			
+			% Nodes
+			\node[main] (a) at (0,0) {a};
+			\node[main] (b) [right of=a] {b};
+			\node[main] (c) at (1.25,-2.5) {c};
+			
+			% Reflexivity
+			\draw[reflexive] (a) to (a);
+			\draw[reflexive] (b) to (b);
+			\draw[reflexive] (c) to (c);
+		\end{tikzpicture}
+		\caption{Reflexive}
+		\label{fig:reflexive}
+	\end{subfigure}\hfill
+	\begin{subfigure}[t]{0.3\textwidth}
+		\centering
+		\begin{tikzpicture}[scale=1, >=Stealth, node distance=2.5cm, thick, main/.style = {draw, circle}]
+			% Define styles
+			\tikzset{
+				reflexive/.style={->, loop, looseness=12, in=120, out=60, red},
+				symmetric/.style={->, blue, bend left},
+				transitive/.style={->, green!75!black}
+			}
+			
+			% Nodes
+			\node[main] (a) at (0,0) {a};
+			\node[main] (b) [right of=a] {b};
+			\node[main] (c) at (1.25,-2.5) {c};
+			
+			% Reflexivity
+			\draw[dotted, ->, red, bend left] (a) to (b);
+			\draw[-, red, bend right] (a) to node[midway, below] {$a=b$} (b);
+			%		\draw[reflexive] (c) to (c);
+		\end{tikzpicture}
+		\caption{Co-reflexive.}
+		\label{fig:coreflexive}
+	\end{subfigure}\hfill
+	\begin{subfigure}[t]{0.3\textwidth}
+		\centering
+		\begin{tikzpicture}[scale=1, >=Stealth, node distance=2.5cm, thick, main/.style = {draw, circle}]
+			% Define styles
+			\tikzset{
+				reflexive/.style={->, loop, looseness=12, in=120, out=60, red},
+				symmetric/.style={->, blue, bend left},
+				transitive/.style={->, green!75!black}
+			}
+			
+			% Nodes
+			\node[main] (a) at (0,0) {a};
+			\node[main] (b) [right of=a] {b};
+			\node[main] (c) at (1.25,-2.5) {c};
+			
+			% Reflexivity
+			\draw[reflexive] (a) to node[] {\xmark} (a);
+			\draw[reflexive] (b) to node[] {\xmark} (b);
+			\draw[reflexive] (c) to node[] {\xmark} (c);
+		\end{tikzpicture}
+		\caption{Irreflexive}
+		\label{fig:irreflexive}
+	\end{subfigure}
+	\caption{Reflexivity}
+	\label{fig:reflexivity}
+\end{figure}

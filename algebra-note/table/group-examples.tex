@@ -1,0 +1,30 @@
+\begin{table}[h!]\centering\setstretch{2.25}\adjustbox{scale=.75}{\begin{tabular}{|>{\centering\arraybackslash}m{2cm}|c|>{\centering\arraybackslash}m{3cm}||>{\centering\arraybackslash}m{3.5cm}|c|>{\centering\arraybackslash}m{3.25cm}||c|} \hline 
+			Name & Group (Set) & Operation & Form of Element & Identity & Inverse & Abelian \\ \hline\hline
+			Integers & $\Z$ & Addition & $k$ & $0$ & $-k$ & \vmark \\ \hline
+			Integers modulo n & $\Z_n$ & Addition mod $n$ & $k$ & $0$ & $n-k$ & \vmark \\ \hline
+			Rational Numbers & $\Q$ & Multiplication & $m/n$ & $1$ & $n/m$ & \vmark \\ \hline
+			Real Numbers & $\R^*$ & Multiplication & $x$ & $1$ & $1/x$ & \vmark \\ \hline
+			Complex Numbers & $\C^*$ & Multiplication & $a+bi$ & $1$ & $\displaystyle\frac{1}{a^2+b^2}a-\frac{1}{a^2+b^2}bi$ & \vmark \\ \hline
+			Vector Space & $\R^n$ & Componentwise addition & $(a_1,a_2,\dots,a_n)$ & $(0,0,\dots,0)$ & $(-a_1,-a_2,\dots,-a_n)$ & \vmark \\ \hline
+			%		$U(n)$ & Multiplication & $k,\gcd(k,n)$ & $1$ & Solution to $kx\bmod n =1$ & $\vmark$
+			General Linear Group & $GL(2,F)$ & Matrix multiplication & $\begin{bsmallmatrix}
+				\displaystyle a & \displaystyle b \\ \displaystyle c & \displaystyle d
+			\end{bsmallmatrix}$ with $ad-bc\neq 0$ & $\begin{bsmallmatrix}\setlength{\arraycolsep}{.5cm}
+				\displaystyle1 & \displaystyle0 \\ \displaystyle0 & \displaystyle1
+			\end{bsmallmatrix}$ & $\begin{bsmallmatrix}
+				\displaystyle\frac{d}{ad-bc} & \displaystyle \frac{-b}{ad-bc} \\
+				\displaystyle\frac{-c}{ad-bc} & \displaystyle \frac{a}{ad-bc}
+			\end{bsmallmatrix}$ & \xmark \\ \hline
+			Special Linear Group & $SL(2,F)$ & Matrix multiplication & $\begin{bsmallmatrix}
+				\displaystyle a & \displaystyle b \\ \displaystyle c & \displaystyle d
+			\end{bsmallmatrix}$ with $ad-bc = 1$ & $\begin{bsmallmatrix}\setlength{\arraycolsep}{.5cm}
+				\displaystyle1 & \displaystyle0 \\ \displaystyle0 & \displaystyle1
+			\end{bsmallmatrix}$ & $\begin{bsmallmatrix}
+				\displaystyle d & \displaystyle -b \\
+				\displaystyle -c & \displaystyle a
+			\end{bsmallmatrix}$ & \xmark \\ \hline
+			Symmetric Group & $S_n$ & Composition of permutations & Permutations of $n$ element: $\sigma\in S_n$ & Identity permutation $e$ & Inverse permutation $\sigma^{-1}$ & \xmark \\ \hline
+			Dihedral Group & $D_n$ & Composition of symmetries & Rotations $r^k$ and reflections $sr^k$, $k\in\set{0,1,\dots,n-1}$ & Identity symmetry $e$ & $r^{-k}=r^{n-k}$, $(sr^k)^{-1}=sr^{-k}$ & \xmark \\ \hline
+			Quaternion Group & $Q_8$ & Quaternion multiplication & Quaternions: \( \pm 1, \pm i, \pm j, \pm k \) & $1$ & \(-a\) for \( a \in \{i, j, k\} \), \( -1 = 1^{-1}, -i = i^{-1}, -j = j^{-1}, -k = k^{-1} \) & \xmark \\ \hline
+	\end{tabular}}
+\end{table}

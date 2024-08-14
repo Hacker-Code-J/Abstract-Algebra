@@ -1,0 +1,142 @@
+\documentclass[11pt,openany]{article}
+
+\input{algebra-preamble}
+\usepackage{commath}
+\usepackage{caption}
+%Tikzpicture
+\usepackage{tikz}
+\usepackage{tikz-3dplot}
+\usepackage{tikz-cd}
+\usetikzlibrary{
+	3d, % For 3D drawing
+	angles,
+	arrows,
+	arrows.meta,
+	backgrounds,
+	bending,
+	calc,
+	decorations.pathmorphing,
+	decorations.pathreplacing,
+	decorations.markings,
+	fit,
+	matrix,
+	patterns,
+	patterns.meta,
+	positioning,
+	quotes,
+	shadows,
+	shapes,
+	shapes.geometric
+}
+
+\newcommand{\arrowboth}[1][]{\arrow[#1, bend left=15, myarrow]\arrow[bend left=15, myarrow, from=#1]}
+
+\setstretch{1.25}
+\begin{document}
+	\pagenumbering{arabic}
+	\begin{center}
+		\huge\textbf{Commutative Rings}\\
+		\vspace{0.5em}
+		%	\Large\quad{대수학의 아름다움 서브-스터디}\\
+		\vspace{0.5em}
+		\normalsize{\today}\\
+	\end{center}
+	
+\section*{The Zero Set of Simultaneous Equations Forms a Topology}
+\subsection*{Definitions and Preliminaries}
+
+- \textbf{Topological Space}: A set \( X \) with a collection \( \mathcal{T} \subseteq 2^X \) is a topological space if \( \mathcal{T} \) satisfies the following:
+\begin{enumerate}
+	\item \( \emptyset \in \mathcal{T} \) and \( X \in \mathcal{T} \) (inclusion of the empty set and the entire space).
+	\item \( \mathcal{T} \) is closed under arbitrary unions, i.e., if \( \{ U_\alpha \}_{\alpha \in A} \subseteq \mathcal{T} \), then \( \bigcup_{\alpha \in A} U_\alpha \in \mathcal{T} \).
+	\item \( \mathcal{T} \) is closed under finite intersections, i.e., if \( U_1, U_2, \ldots, U_n \in \mathcal{T} \), then \( \bigcap_{i=1}^n U_i \in \mathcal{T} \).
+\end{enumerate}
+
+\newpage
+\begin{itemize}
+	\item $\C[x]=\set{\sum_{i=0}^{n}a_ix^i:a_i\in\C, n\in\Z_{\geq 0}}$
+	\item $\C=\set{\alpha:\alpha\in\C}$
+	\item Note that $\C\subseteq\C[x]$ since $\C=\set{\alpha:\alpha\in\C}=\set{0x^n+0x^{n-1}+\cdots+\alpha x^0:\alpha\in\C}$
+	\item Consider \[
+	\fullfunction{\phi_\alpha}{\C[x]}{\C}{f}{f(\alpha)}
+	\] and 
+	\item Consider $f(x)\in\C[x]$ s.t. \[
+	\fullfunction{f}{\C}{\C}{\alpha}{f(\alpha)}
+	\]
+	\item By the first isomorphism theorem, we have $\C[x]/\gen{x-\alpha}\simeq\C$
+	\item $\gen{x-\alpha}=\set{(x-\alpha)f(x):f(x)\in\C[x]}\subseteq\C[x]$
+	\item $\C[x]/\gen{x-\alpha}$;
+	\begin{itemize}
+		\item $p(x)=(x-\alpha)q(x)+r(x)=(x-\alpha)q(x)+r$
+		\item $\C[x]/\gen{x-\alpha}=\set{r+\gen{x-\alpha}:r\in\C}$
+	\end{itemize}
+\end{itemize}
+
+\adjustbox{scale=.9}{\setstretch{1.5}
+\begin{tabular}{|l||c|c|} \hline
+	\textbf{Mapping} & $\fullfunction{\psi_p}{\Z}{\Z_p}{n}{n\bmod p=\psi_p(n)}$ & $\fullfunction{\phi_a}{\C[x]}{\C}{f(x)}{f(a)=\phi_a(f(x))}$ \\ \hline\hline
+	Additive Homo. & $\psi_p(a+b):=(a+b)\bmod p$ & $\phi_a(f+g):=f(a)+g(a)$ \\ \hline
+	Multiplicative Homo. & $\psi_p(ab):=(ab)\bmod p$ & $\phi_a(fg):=f(a)g(a)$ \\ \hline
+	Kernel & $\ker(\psi_p)=p\Z$ & $\ker(\phi_a)=(x-a)\C[x]$ \\ \hline
+	Image & $\Z_p$ & $\C$ \\ \hline
+	Ideal & $p\Z=\gen{p}$ & $(x-a)\C[x]=\gen{x-a}$ \\ \hline
+	Prime Ideal & $\gen{p}$ is prime & $\gen{x-a}$ is prime \\ \hline
+	Maximal Ideal & $\gen{p}$ is maximal & $\gen{x-a}$ is maximal \\ \hline
+	Isomorphism & $\Z_p\simeq \Z/p\Z$ & $\C\simeq \C[x]/\gen{x-a}$ \\ \hline
+	Element of Domain & $\fullfunction{n}{arg2}{arg3}{arg4}{arg5}$ & $\fullfunction{f}{\set{\gen{x-\alpha}:\alpha\in\C}}{\coprod_{\alpha}\C[x]/\gen{x-\alpha}}{\gen{x-\alpha}}{arg5}$ \\ \hline
+\end{tabular}}
+
+\begin{tikzpicture}[scale=1]
+	
+	% Draw the grid for primes
+	\foreach \x in {0, 1, 2, 3, 4} {
+		\draw[gray, very thin] (\x, 0) -- (\x, 4);
+	}
+	\foreach \y in {0, 1, 2} {
+		\draw[gray, very thin] (0, \y) -- (4, \y);
+	}
+	
+	% Labels for primes at the top
+	\node at (0.5, 3.5) {2};
+	\node at (1.5, 3.5) {3};
+	\node at (2.5, 3.5) {5};
+	\node at (3.5, 3.5) {7};
+	
+	% Labels for pZ on the left
+	\node at (-1, 2.5) {$2\mathbb{Z}$};
+	\node at (-1, 1.5) {$3\mathbb{Z}$};
+	\node at (-1, 0.5) {$5\mathbb{Z}$};
+	
+	% Entries for pZ=2Z
+	\node at (0.5, 2.5) {1}; % 1 mod 2 (for p = 2)
+	\node at (1.5, 2.5) {0}; % 0 mod 3
+	\node at (2.5, 2.5) {0}; % 0 mod 5
+	\node at (3.5, 2.5) {0}; % 0 mod 7
+	
+	% Entries for pZ=3Z
+	\node at (0.5, 1.5) {0}; % 0 mod 2
+	\node at (1.5, 1.5) {1}; % 1 mod 3 (for p = 3)
+	\node at (2.5, 1.5) {0}; % 0 mod 5
+	\node at (3.5, 1.5) {0}; % 0 mod 7
+	
+	% Entries for pZ=5Z
+	\node at (0.5, 0.5) {0}; % 0 mod 2
+	\node at (1.5, 0.5) {0}; % 0 mod 3
+	\node at (2.5, 0.5) {1}; % 1 mod 5 (for p = 5)
+	\node at (3.5, 0.5) {0}; % 0 mod 7
+	
+	% Label for prime numbers
+	\node at (2.5, -0.5) {Prime numbers $p$};
+	
+	% Arrow and description
+	\draw[->, thick] (-2, 2.5) -- (-1.2, 2.5);
+	\draw[->, thick] (-2, 1.5) -- (-1.2, 1.5);
+	\draw[->, thick] (-2, 0.5) -- (-1.2, 0.5);
+	
+	\node at (-3, 2.5) {$\varphi(2\mathbb{Z})$};
+	\node at (-3, 1.5) {$\varphi(3\mathbb{Z})$};
+	\node at (-3, 0.5) {$\varphi(5\mathbb{Z})$};
+	
+\end{tikzpicture}
+
+\end{document}

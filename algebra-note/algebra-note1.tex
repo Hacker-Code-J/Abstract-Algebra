@@ -99,92 +99,296 @@
 \input{tikz/quotient-sets}
 \end{center}
 
-
-\begin{tikzpicture}[>=Stealth, thick, node distance=2.5 cm]
-	% Styles for different elements and classes
+\begin{center}
+\begin{tikzpicture}[>=Stealth, thick, node distance=2 cm]
+	% Styles for different components
 	\tikzset{
-		main node/.style={circle, draw, fill=blue!30, thick, minimum size=25pt, inner sep=0pt},
-		class node/.style={ellipse, draw, thick, dashed, fill=green!20, minimum width=3cm, minimum height=1.5cm},
+		main node/.style={circle, draw, fill=blue!20, minimum size=1cm, font=\sffamily},
+		class node/.style={dashed, thick, ellipse, draw, thick, red, minimum height=1cm, minimum width=1cm, align=center},
 		path/.style={->, thick, shorten <=2pt, shorten >=2pt},
-		relation/.style={->, thick, bend left=20, red},
-		class label/.style={color=red, align=center}
+		reflexive/.style={->, line width=1mm, loop, looseness=5, in=0, out=-90, red, opacity=.5},
+		symmetric/.style={->, line width=1mm, blue, bend left, opacity=.5},
+		transitive/.style={->, thick, green!75!black, bend left}
+		label distance=3mm
 	}
 	
 	% Nodes representing elements
-	\node[main node] (a) {a};
-	\node[main node] (b) [right of=a] {b};
-	\node[main node] (c) [below of=a] {c};
-	\node[main node] (d) [right of=c] {d};
+	\node[main node, fill=green] (0) {0};
+	\node[main node, fill=green] (1) [right of=0] {1};
+	\node[main node, fill=green] (2) [right of=1] {2};
 	
-	% Class node
-	\node[class node, fit=(a) (b), label={[class label]above:Class $[a, b]$}] {};
-	\node[class node, fit=(c) (d), label={[class label]below:Class $[c, d]$}] {};
+	\node[main node] (3) [below of=0] {3};
+	\node[main node] (4) [below of=1] {4};
+	\node[main node] (5) [below of=2] {5};
 	
-	% Relations indicating equivalence
-	\draw[relation] (a) to (b);
-	\draw[relation] (b) to (a);
-	\draw[relation] (c) to (d);
-	\draw[relation] (d) to (c);
+	\node[main node] (6) [below of=3] {6};
+	\node[main node] (7) [below of=4] {7};
+	\node[main node] (8) [below of=5] {8};
 	
-	% Annotations
-	\node[align=left, text width=10cm, below=3cm of c] {
-		\large \textbf{Visualization of Quotient Sets}\\[2ex]
-		This diagram represents the partition of a set into quotient sets (equivalence classes) determined by an equivalence relation. Each quotient set groups elements that are equivalent under the relation, as shown by the red arrows.\\[1ex]
-		The quotient set $S/\sim$ is formed by the union of all distinct classes, each represented as a green ellipse.\\[1ex]
-		Arrows within classes signify the symmetry and reflexivity properties inherent to the equivalence relation. Elements not directly connected by arrows are understood to be distinct within the quotient structure.
-	};
+	\node[main node] (-1) [above of=2] {-1};
+	\node[main node] (-2) [above of=1] {-2};
+	\node[main node] (-3) [above of=0] {-3};
 	
-	% Optional background for quotient set
+	%	 Nodes for equivalence classes
+	\node[class node, label={[red]above:$[0]$}, fit=(-3) (6)] {};
+	\node[class node, label={[red]above:$[1]$}, fit=(-2) (7)] {};
+	\node[class node, label={[red]above:$[2]$}, fit=(-1) (8)] {};
+	
+	\node at (2, -7) {$\Z/\sim=\set{[0],[1],[2]}$ with $a\sim b\overset{\text{def}}{\iff}a\equiv b\pmod 3$};
+	
+	% Background grid as optional visual enhancement
 	\begin{scope}[on background layer]
-		\fill[blue!10] ($(a.north west)+(-0.3,0.3)$) rectangle ($(d.south east)+(0.3,-0.3)$);
-	\end{scope}
-\end{tikzpicture}\ \\
-\begin{tikzpicture}[>=Stealth, thick, node distance=2 cm, auto]
-	% Styles
-	\tikzset{
-		main node/.style={circle, draw, fill=blue!20, thick, minimum size=25pt, font=\sffamily\bfseries},
-		subgroup node/.style={circle, draw, fill=red!30, thick, minimum size=25pt, font=\sffamily\bfseries},
-		quotient node/.style={rectangle, draw, fill=green!20, thick, minimum size=25pt, align=center},
-		path/.style={->, thick, shorten <=2pt, shorten >=2pt},
-		group/.style={draw, dashed, fill=yellow!20, inner sep=10pt}
-	}
-	
-	% Nodes for group elements
-	\node[main node] (g) {g};
-	\node[subgroup node] (n) [below left=1.5cm and 1cm of g] {n};
-	\node[main node] (h) [below right=1.5cm and 1cm of g] {h};
-	
-	% Nodes for quotient set elements
-	\node[quotient node] (gN) [below=6cm of g] {\(gN\)};
-	\node[quotient node] (hN) [right of=gN] {\(hN\)};
-	
-	% Dashed group boundary
-	\node[group, fit=(g) (n) (h)] (group) {};
-	
-	% Paths
-	\draw[path] (g) -- node {mult} (n);
-	\draw[path] (g) -- node {mult} (h);
-	\draw[path] (n) -- node [swap] {mult} (h);
-	
-	% Mapping to quotient set
-	\draw[->, thick, decorate, decoration={snake, amplitude=.4mm, segment length=2mm, post length=1mm}] 
-	(g) to[out=-90, in=90] (gN);
-	\draw[->, thick, decorate, decoration={snake, amplitude=.4mm, segment length=2mm, post length=1mm}] 
-	(h) to[out=-90, in=90] (hN);
-	
-	% Annotations
-	\node[align=left, text width=12cm, below=1cm of gN] {
-		\textbf{Visualization of Quotient Sets}\\
-		The diagram represents a group \(G\) partitioned into quotient sets by a normal subgroup \(N\). Each quotient set element, such as \(gN\) and \(hN\), represents the set of all products of \(g\) with elements of \(N\).\\
-		This highlights how the quotient set \(G/N\) simplifies the structure of \(G\) by consolidating elements related by \(N\).
-	};
-	
-	% Background shading for quotient set
-	\begin{scope}[on background layer]
-		\fill[blue!10] ($(g.north west)+(-0.3,0.6)$) rectangle ($(h.south east)+(0.3,-6)$);
+		\draw[style=help lines, step=2cm] (0,3) grid (4,-5);
 	\end{scope}
 \end{tikzpicture}
+\end{center}
 
+
+\begin{tikzpicture}[Stealth-Stealth,scale=.5]
+	% 3Z
+	\draw[thick, black] (-16,-4) -- (16,-4) node[right] {$3\Z$};
+	\foreach \x in {-15,-12,...,15} {
+		\filldraw[black] (\x,-4) circle (3pt);
+		\pgfmathtruncatemacro{\result}{\x}
+		\node[below, black] at (\x,-4.1) {\result};
+	}
+	
+	% 3Z+1
+	\draw[thick,red] (-16,-6) -- (16,-6) node[right] {$1+3\Z$};
+	\foreach \x in {-14,-11,...,13} {
+		\filldraw[red] (\x,-6) circle (3pt);
+		\pgfmathtruncatemacro{\result}{\x}
+		\node[below, red] at (\x,-6.1) {\result};
+	}
+	
+	% 3Z+2
+	\draw[thick,blue] (-16,-8) -- (16,-8) node[right] {$2+3\Z$};
+	\foreach \x in {-13,-10,...,14} {
+		\filldraw[blue] (\x,-8) circle (3pt);
+		\pgfmathtruncatemacro{\result}{\x}
+		\node[below, blue] at (\x,-8.1) {\result};
+	}
+
+	\draw[line width=.5mm, dotted, green] (0,-4) circle (.5cm);
+	\draw[line width=.5mm, dotted, green] (1,-6) circle (.5cm);
+	\draw[line width=.5mm, dotted, green] (2,-8) circle (.5cm);
+	
+	\node at (0, -10) {$\Z/3\Z=\set{0+3\Z,1+3\Z,2+3\Z}$};
+\end{tikzpicture}
+\vspace{12pt}
+
+\begin{tikzpicture}
+	
+	% Draw the circles representing equivalence classes
+	\draw[thick] (-6, 0) circle (2cm);
+	\draw[thick] (0, 0) circle (2cm);
+	\draw[thick] (6, 0) circle (2cm);
+	
+	% Label the circles
+	\node at (-6, 0) {\begin{tabular}{c} $0 + 3\mathbb{Z}$ \\ $\{ \ldots, -6, -3, 0, 3, 6, \ldots \}$ \end{tabular}};
+	\node at (0, 0) {\begin{tabular}{c} $1 + 3\mathbb{Z}$ \\ $\{ \ldots, -5, -2, 1, 4, 7, \ldots \}$ \end{tabular}};
+	\node at (6, 0) {\begin{tabular}{c} $2 + 3\mathbb{Z}$ \\ $\{ \ldots, -4, -1, 2, 5, 8, \ldots \}$ \end{tabular}};
+	
+	% Draw arrows between circles
+	\draw[->, thick] (-4, 0.5) -- (-2, 0.5) node[midway, above] {+1};
+	\draw[->, thick] (2, 0.5) -- (4, 0.5) node[midway, above] {+1};
+	\draw[->, thick] (4, -0.5) -- (2, -0.5) node[midway, below] {+2};
+	\draw[->, thick] (-2, -0.5) -- (-4, -0.5) node[midway, below] {+2};
+	
+	% Add label for the set
+	\node at (0, -2.5) {$\mathbb{Z}/3\mathbb{Z} = \{ 0 + 3\mathbb{Z}, 1 + 3\mathbb{Z}, 2 + 3\mathbb{Z} \}$};
+	
+\end{tikzpicture}
+
+\begin{tikzpicture}
+	
+	% Draw the circles representing equivalence classes
+	\draw[thick] (0, 0) circle (2cm);
+	\draw[thick] (-4, -6) circle (2cm);
+	\draw[thick] (4, -6) circle (2cm);
+	
+	% Label the circles
+	\node at (0, 0) {\begin{tabular}{c} $0 + 3\mathbb{Z}$ \\ $\{ \ldots, -6, -3, 0, 3, 6, \ldots \}$ \end{tabular}};
+	\node at (-4, -6) {\begin{tabular}{c} $1 + 3\mathbb{Z}$ \\ $\{ \ldots, -5, -2, 1, 4, 7, \ldots \}$ \end{tabular}};
+	\node at (4, -6) {\begin{tabular}{c} $2 + 3\mathbb{Z}$ \\ $\{ \ldots, -4, -1, 2, 5, 8, \ldots \}$ \end{tabular}};
+	
+	% Draw arrows between circles
+	\draw[->, thick] (-1.2, -1.2) -- (-3.8, -3.8) node[midway, above left] {+1};
+%	\draw[->, thick] (2, 0.5) -- (4, 0.5) node[midway, above] {+1};
+%	\draw[->, thick] (4, -0.5) -- (2, -0.5) node[midway, below] {+2};
+%	\draw[->, thick] (-2, -0.5) -- (-4, -0.5) node[midway, below] {+2};
+	
+	% Add label for the set
+%	\node at (0, -2.5) {$\mathbb{Z}/3\mathbb{Z} = \{ 0 + 3\mathbb{Z}, 1 + 3\mathbb{Z}, 2 + 3\mathbb{Z} \}$};
+	
+\end{tikzpicture}
+
+
+
+\section*{Groups}
+
+\section*{Subgroups}
+
+\section*{Cyclic Subgroups}
+
+\section*{Normal Subgroups}
+
+\newpage
+\begin{center}
+\begin{tikzpicture}[Stealth-Stealth,scale=.5]
+	% Z
+	\draw[thick] (-16,0) -- (16,0) node[right] {$\Z$};
+	\foreach \x in {-15,-14,...,15} {
+		\filldraw (\x,0) circle (3pt);
+		\node[below] at (\x,-.1) {\x};
+	}
+
+	% 2Z
+	\draw[thick,red] (-16,-2) -- (16,-2) node[right] {$2\Z$};
+	\foreach \x in {-14,-12,...,14} {
+		\filldraw[red] (\x,-2) circle (3pt);
+		\node[below, red] at (\x,-2.1) {\x};
+	}
+	
+	% 3Z
+	\draw[thick, blue] (-16,-4) -- (16,-4) node[right] {$3\Z$};
+	\foreach \x in {-15,-12,...,15} {
+		\filldraw[blue] (\x,-4) circle (3pt);
+		\node[below, blue] at (\x,-4.1) {\x};
+	}
+
+	% 4Z
+	\draw[thick,red] (-16,-6) -- (16,-6) node[right] {$4\Z$};
+	\foreach \x in {-12,-8,...,12} {
+		\filldraw[red] (\x,-6) circle (3pt);
+		\node[below, red] at (\x,-6.1) {\x};
+	}
+
+	% 5Z
+	\draw[thick,green!75!black] (-16,-8) -- (16,-8) node[right] {$5\Z$};
+	\foreach \x in {-15,-10,...,15} {
+		\filldraw[green!75!black] (\x,-8) circle (3pt);
+		\node[below, green!75!black] at (\x,-8.1) {\x};
+	}
+
+	% 6Z
+	\draw[thick, blue] (-16,-10) -- (16,-10) node[right] {$6\Z$};
+	\foreach \x in {-12,-6,...,12} {
+		\filldraw[blue] (\x,-10) circle (3pt);
+		\node[below, blue] at (\x,-10.1) {\x};
+	}
+\end{tikzpicture}
+\begin{tikzpicture}
+	% Root node
+	\node (Z) at (0,0) {$\mathbb{Z}$};
+	
+	% First level of subsets
+	\node (2Z) at (-6,-2) {$2\mathbb{Z}$};
+	\node (3Z) at (-3,-2) {$3\mathbb{Z}$};
+	\node (5Z) at (0,-2) {$5\mathbb{Z}$};
+	\node (7Z) at (3,-2) {$7\mathbb{Z}$};
+	\node (11Z) at (6,-2) {$11\mathbb{Z}$};
+	
+	% Second level of subsets
+	\node (4Z) at (-6,-4) {$4\mathbb{Z}$};
+	\node (6Z) at (-4.5,-4) {$6\mathbb{Z}$};
+	\node (9Z) at (-3,-4) {$9\mathbb{Z}$};
+	\node (10Z) at (-1.5,-4) {$10\mathbb{Z}$};
+	
+	% Third level of subsets
+	\node (8Z) at (-6,-6) {$8\mathbb{Z}$};
+	\node (12Z) at (-4.5,-6) {$12\mathbb{Z}$};
+	
+	% Level 1
+	\draw (Z) -- (2Z);
+	\draw (Z) -- (3Z);
+	\draw (Z) -- (5Z);
+	\draw (Z) -- (7Z);
+	\draw (Z) -- (11Z);
+	
+	% Level 2
+	\draw (2Z) -- (4Z);
+	\draw (2Z) -- (6Z);
+	\draw (2Z) -- (10Z);
+	
+	\draw (3Z) -- (6Z);
+	\draw (3Z) -- (9Z);
+	
+	\draw (5Z) -- (10Z);
+	
+	% Level 3
+	\draw (4Z) -- (8Z);
+	\draw (2Z) -- (12Z);
+	\draw (6Z) -- (12Z);
+\end{tikzpicture}
+\end{center}
+
+\newpage
+	\begin{tikzpicture}
+		\node[circle, draw, minimum size=2cm] (G) at (0,0) {$\mathbb{Z}$};
+		\node (op) at (0,-1.5) {Operation: $+$};
+		\node (id) at (0,-2) {Identity: $0$};
+		\node (inv) at (0,-2.5) {Inverses: $\forall a \in \mathbb{Z}, -a \in \mathbb{Z}$};
+	\end{tikzpicture}
+
+\begin{tikzpicture}
+	\node[circle, draw, minimum size=2cm] (R) at (0,0) {$\mathbb{Z}$};
+	\node (op1) at (-2,-1.5) {Addition: $+$};
+	\node (id1) at (-2,-2) {Additive Identity: $0$};
+	\node (inv1) at (-2,-2.5) {Additive Inverses: $\forall a \in \mathbb{Z}, -a \in \mathbb{Z}$};
+	
+	\node (op2) at (2,-1.5) {Multiplication: $\cdot$};
+	\node (id2) at (2,-2) {Multiplicative Identity: $1$};
+\end{tikzpicture}
+
+
+	\begin{tikzpicture}
+		\node[circle, draw, minimum size=3cm] (G) at (0,0) {$\mathbb{Z}$};
+		\node[circle, draw, minimum size=1.5cm] (H) at (0,0) {$2\mathbb{Z}$};
+	\end{tikzpicture}
+
+\begin{tikzpicture}
+	\node[circle, draw, minimum size=3cm] (R) at (0,0) {$\mathbb{Z}$};
+	\node[circle, draw, minimum size=1.5cm] (S) at (0,0) {$2\mathbb{Z}$};
+\end{tikzpicture}
+
+\begin{tikzpicture}
+	\node[circle, draw, minimum size=3cm] (G) at (0,0) {$\mathbb{Z}$};
+	\node[circle, draw, minimum size=1.5cm] (N) at (0,0) {$2\mathbb{Z}$};
+	\node at (0,-2.5) {Normal Subgroup};
+\end{tikzpicture}
+
+\begin{tikzpicture}
+	\node[circle, draw, minimum size=3cm] (R) at (0,0) {$\mathbb{Z}$};
+	\node[circle, draw, minimum size=1.5cm] (I) at (0,0) {$2\mathbb{Z}$};
+	\node at (0,-2.5) {Ideal};
+\end{tikzpicture}
+
+\begin{tikzpicture}
+	\node[circle, draw, minimum size=3cm] (G) at (0,0) {$\mathbb{Z}$};
+	\node[circle, draw, minimum size=1.5cm] (N) at (0,0) {$2\mathbb{Z}$};
+	\node at (0,-2.5) {Quotient Group $\mathbb{Z} / 2\mathbb{Z}$};
+	\node at (0,-3.5) {Cosets: $\{0, 1\}$ modulo 2};
+\end{tikzpicture}
+
+\begin{tikzpicture}
+	\node[circle, draw, minimum size=3cm] (R) at (0,0) {$\mathbb{Z}$};
+	\node[circle, draw, minimum size=1.5cm] (I) at (0,0) {$2\mathbb{Z}$};
+	\node at (0,-2.5) {Quotient Ring $\mathbb{Z} / 2\mathbb{Z}$};
+	\node at (0,-3.5) {Elements: $\{0, 1\}$ modulo 2};
+\end{tikzpicture}
+
+\begin{tikzpicture}
+	\node[circle, draw, minimum size=3cm] (G) at (0,0) {$\mathbb{Z}$};
+	\node[circle, draw, minimum size=1.5cm] (H) at (0,0) {$3\mathbb{Z}$};
+	\node at (0,-2.5) {Cyclic Subgroup $\langle 3 \rangle = 3\mathbb{Z}$};
+\end{tikzpicture}
+
+\begin{tikzpicture}
+	\node[circle, draw, minimum size=3cm] (R) at (0,0) {$\mathbb{Z}$};
+	\node[circle, draw, minimum size=1.5cm] (I) at (0,0) {$3\mathbb{Z}$};
+	\node at (0,-2.5) {Principal Ideal $(3) = 3\mathbb{Z}$};
+\end{tikzpicture}
 \newpage
 %\begin{tikzpicture}[scale=1.5]
 %	

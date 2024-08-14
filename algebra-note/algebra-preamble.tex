@@ -5,6 +5,8 @@
 \usepackage{enumerate}
 \usepackage{graphicx}
 \usepackage{kotex}
+\usepackage{arydshln} % Include this package
+\usepackage{bbding}
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage[dvipsnames,table]{xcolor}
@@ -143,8 +145,13 @@
 \newcommand{\res}{\operatorname{res}}
 \DeclareMathOperator*{\Res}{\operatorname{Res}}
 
-\renewcommand{\Re}{\operatorname{Re}}
-\renewcommand{\Im}{\operatorname{Im}}
+%\renewcommand{\Re}{\operatorname{Re}}
+%\renewcommand{\Im}{\operatorname{Im}}
 
 \newcommand{\cyclic}[1]{\langle #1 \rangle}
 \newcommand{\uniform}{\overset{\$}{\leftarrow}}
+\newcommand{\xmark}{\textcolor{red}{\XSolidBrush}}
+\newcommand{\vmark}{\textcolor{green!75!black}{\CheckmarkBold}}
+
+\newcommand{\gen}[1]{\langle #1 \rangle}
+\newcommand{\Gen}[1]{\left\langle #1 \right\rangle}

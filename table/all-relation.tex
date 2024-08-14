@@ -1,0 +1,33 @@
+\begin{table}[h!]\setstretch{1.5}\adjustbox{scale=.7, center}{
+\begin{tabular}{|c|c|c|c|}
+	\hline
+	\textbf{Property Type} & \textbf{Condition} & \textbf{Definition}& \textbf{Example} \\
+	\hline
+	\multirow{4}{*}{\textbf{Reflexive Properties}} 
+	& Reflexive & $\forall a \in A, \ (a, a) \in R$ & Equality relation on $\mathbb{R}$ \\
+	\cline{2-4}
+	& Coreflexive & $\forall a, b \in A, \ (a, b) \in R \Rightarrow a = b$ & Identity relation $\{(a, a) : a \in A\}$ \\
+	\cline{2-4}
+	& Irreflexive (Anti-reflexive) & $\forall a \in A, \ (a, a) \notin R$ & "Is less than" relation on $\mathbb{R}$ \\
+	\cline{2-4}
+	& Non-Reflexive & $\exists a \in A, \ (a, a) \notin R$ & ``Is a friend of'' relation \\
+	\hline
+	\multirow{4}{*}{\textbf{Symmetric Properties}} 
+	& Symmetric & $\forall a, b \in A, \ (a, b) \in R \Rightarrow (b, a) \in R$ & Equality relation on $\mathbb{R}$ \\
+	\cline{2-4}
+	& Asymmetric & $\forall a, b \in A, \ (a, b) \in R \Rightarrow (b, a) \notin R$ & ``Is parent of'' relation \\
+	\cline{2-4}
+	& Anti-Symmetric & $\forall a, b \in A, \ (a, b) \in R \ \text{and} \ (b, a) \in R \Rightarrow a = b$ & "Is less than or equal to" relation on $\mathbb{R}$ \\
+	\cline{2-4}
+	& Non-Symmetric & $\exists a, b \in A, \ (a, b) \in R \ \text{and} \ (b, a) \notin R \ \text{or} \ (a, b) \notin R \ \text{and} \ (b, a) \in R$ & "Is sibling of" relation\\
+	\hline
+	\multirow{3}{*}{\textbf{Transitive Properties}} 
+	& Transitive & $\forall a, b, c \in A, \ (a, b) \in R \ \text{and} \ (b, c) \in R \Rightarrow (a, c) \in R$ & Divisibility relation on $\mathbb{N}$ \\
+	\cline{2-4}
+	& Anti-Transitive & $\forall a, b, c \in A, \ (a, b) \in R \ \text{and} \ (b, c) \in R \Rightarrow (a, c) \notin R$ & Hard to find simple example \\
+	\cline{2-4}
+	& Non-Transitive & $\exists a, b, c \in A, \ (a, b) \in R \ \text{and} \ (b, c) \in R \ \text{and} \ (a, c) \notin R$ & ``Is a friend of'' \\
+	\hline
+\end{tabular}}
+\caption{Conditions and Examples for Relation Properties}
+\end{table}
