@@ -1,0 +1,140 @@
+\documentclass[11pt,openany]{article}
+
+\input{algebra-note-preamble}
+\input{tcolorbox}
+\input{theorem}
+\input{algebra-note-commands}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage{tikz-3dplot}
+\usepackage{amsmath}
+\usepackage{pgfplots}
+\setstretch{1.25}
+\begin{document}
+\pagenumbering{arabic}
+\begin{center}
+	\huge\textbf{Category Theory,\\ Sheaf and Presheaf}\\
+	\vspace{0.5em}
+	\large{Ji, Yong-hyeon}\\
+	\vspace{0.5em}
+	\normalsize{\today}\\
+\end{center}
+\section{Category, Functor and Natural Transformation}
+\begin{figure}[h!]\centering
+	\begin{tikzcd}
+		A \arrow[rr, "f"] \arrow[rrdd, "g\circ f" description] \arrow["1_A"', loop, distance=2em, in=215, out=145] &  & B \arrow[dd, "g"] \arrow["1_B"', loop, distance=2em, in=35, out=325] \\
+		&  &                                                                      \\
+		&  & C \arrow["1_C"', loop, distance=2em, in=305, out=235]               
+	\end{tikzcd}
+\caption{Category}
+\end{figure}\ \\
+[0.2cm]
+\defbox[Category]{\begin{definition}
+A \textbf{category} $\mathcal{C}$ consists of the following data: \begin{enumerate}[(i)]
+\item A class $\text{Ob}(\mathcal{C})$, called \textit{objects} of category $\mathcal{C}$.
+\item For a pair $A$ and $B$ of objects, a class $\text{Mor}_\mathcal{C}(A,B)$\footnote{Sometimes, we also denote it by $\text{Hom}(A,B)$ or $\mathcal{C}(A,B)$.} whose elements are called \textit{morphisms} (or \textit{arrows}) from $A$ to $B$.
+\item For a pair of morphisms $f$ in $\text{Mor}_\mathcal{C}(A,B)$ and $g$ in $\text{Mor}_\mathcal{C}(B,C)$, there is a \textit{composition} $ g\circ f$ in $\text{Mor}_\mathcal{C}(A,C)$.
+\end{enumerate}
+These data are to satisfy the following rules:
+\begin{enumerate}[(i)]
+\item For every object $A$, there is an identity morphisms $1_A$ in $\text{Mor}_\mathcal{C}(A,A)$.
+\item Composition is associative.
+\end{enumerate}
+\end{definition}}
+\newpage
+\begin{remark}
+	\ \\\begin{figure}[h!]
+		\centering
+		\begin{minipage}{.48\textwidth}\centering% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRAEEQBfU9TXfIRQAmclVqMWbAELdeIDNjwEio4ePrNWiEAGFu4mFADm8IqABmAJwgBbJGRA4ISAIzUGWMNpBQ6cAAsjEGpNKR0LOUsbe0R3JxdEURBPbzY-QODQyR9jKJBrOwdqZyRksNyAHUqAYywrGoACSI86ACMYBgAFfmUhECssYwCcAy4gA
+			\begin{tikzcd}
+				A \arrow[rr, "f", dashed] \arrow[rrdd, "g\circ f"'] &  & B \arrow[dd, "g", dashed] \\
+				&  &                           \\
+				&  & C                        
+			\end{tikzcd}\caption{Composition of Morphisms}
+		\end{minipage}%
+		\begin{minipage}{.48\textwidth}\centering% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRAEEQBfU9TXfIRQAWclVqMWbAELdxMKAHN4RUADMAThAC2SMiBwQkARmoMsYVohBwI5qCGr1mVkGoC8agDpeAxlg1fAAIfHBgADxw4NWAsKC4AfU5qOAALLDUcJABaACYedS1dRFMDI0R9NIysxDynSVdFd1CIqJi4xPYff0CgxW5eNyK9akMRkAYICDQiYwAOMjVGOBhxBjoAIxgGAAV+PAI2DSxFVKz6lzYWyOjY+KSBwp0TUfLSyemiReXVs03tvbYA5CEDHU7nCSXazXNp3RKyLgULhAA
+			\begin{tikzcd}
+				A \arrow[rrrr, "f=f\circ 1_A", shift left=2] \arrow["1_A"', loop, distance=2em, in=125, out=55] &  &  &  & B \arrow[llll, "g=1_A\circ g", shift left=2] \arrow["1_B"', loop, distance=2em, in=305, out=235]
+			\end{tikzcd}\caption{Identity Morphisms}
+		\end{minipage}%
+	\end{figure}
+	\begin{figure}[h!]\centering\centering% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRAEEQBfU9TXfIRQAmclVqMWbAMLdeIDNjwEiARjHV6zVohAAhOXyWCiAZg0TtbACLdxMKAHN4RUADMAThAC2SMiBwIJFFLKV03QxBPH2DqQKR1UJ0QR0jo30RE+MRzJLYACzSvDP9sxIAjGDAoJAAWAE5NSWTHAB1WgGMsDw6AAgied2K-OKCc6krqpAA2fy0wkHz2rp6ACjbO7r63AEoimMQQ7NzJmsQAWgamq10lzZ7e1OoGOkqGAAV+ZSEQDyxHfI4fYlUZIE5VM7nWbXBarO4rPqOHbLLb9EDUOD5LBuIGIfwvN6fYwqXR-AFArgULhAA
+		\begin{tikzcd}
+			A \arrow[r, "f"] \arrow[rr, "g\circ f", bend left=49] \arrow[rrr, "h\circ(g\circ f)", bend left=60] \arrow[rrr, "(h\circ g)\circ f"', bend right=60] & B \arrow[r, "g"] \arrow[rr, "h\circ g"', bend right=49] & C \arrow[r, "h"] & D
+		\end{tikzcd}\caption{Associativity of Composition}
+	\end{figure}
+\end{remark}
+
+
+\defbox[Functor]{\begin{definition}
+A \textbf{functor} $\textbf{F}:\mathcal{C}\to\mathcal{D}$ between two categories $\mathcal{C}$ and $\mathcal{D}$ is given by the following data: \begin{enumerate}[(i)]
+	\item A map $\textbf{F}:\text{Ob}(\mathcal{C})\to\text{Ob}(\mathcal{D})$
+	\item For every $A$ and $B$ in $\text{Ob}(\mathcal{C})$, a map $\textbf{F}$ given by \[
+	\fullfunction{\textbf{F}}{\text{Mor}_{\mathcal{C}}(A,B)}{\text{Mor}_{\mathcal{D}}(\textbf{F}(A), \textbf{F}(B))}{\phi}{\textbf{F}(\phi)}
+	\]
+\end{enumerate}
+\end{definition}}
+\begin{remark}
+\ \begin{center}
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRAEEQBfU9TXfIRRkATFVqMWbAELdeIDNjwEiAFnLj6zVohAAdPThgAPHACMAZsABiXABTsAlHL5LBa0mOpapug0dNLG3tpZx5XARVhUgBGTUkdEBcFfmUhZHU47wS2bnEYKABzeCJQCwAnCABbJDIQHAgkGOztNgM0AAssEGoGOjMYBgAFVPddcqxCjpxkiuqkEWoGpABmFt99QxNzK1s7dq7nXv7BkbcokAmpmfCQOZrEOuXERZAGLDBEqAgcIygekADMD-RArOp9AbDUYXBgwCwzdaJfzbIK2WaVB7NeqNUGItpbQK7LgAoEggC0YN6Hy+Pz+6PmiHU2KQAFYqZ82N9fgUAT4kQSdsESTBgas6nAuvCkBSuBQuEA
+\begin{tikzcd}
+	A \arrow[dd, "\phi"'] \arrow[rrrr, "\textbf{F}", dotted, bend left] &  &  &  & \textbf{F}(A) \arrow[dd, "\textbf{F}(\phi)"'] \\
+	{} \arrow[rrrr, "\textbf{F}", dotted, bend left, shift left=3]      &  &  &  & {}                                            \\
+	B \arrow[rrrr, "\textbf{F}", dotted, bend right]                    &  &  &  & \textbf{F}(B)                                
+\end{tikzcd}
+\end{center}
+\end{remark}
+\defbox[Natural Transformation]{\begin{definition}
+Let $\textbf{F},\textbf{G}:\mathcal{C}\to\mathcal{D}$ be functors. A \textbf{natural transformation} (or a \textbf{morphism of functors}) $\eta:\textbf{F}\to\textbf{G}$, is a collection $\set{\eta_A}_{A\in\text{Ob}(\mathcal{C})}$ such that \begin{enumerate}[(i)]
+	\item $\eta_A:\textbf{F}(A)\to\textbf{G}(A)$ is a morphism in the category $\mathcal{D}$, and
+	\item for each morphism $\phi:A\to B$ of $\mathcal{C}$ the following diagram is commutative
+	\begin{center}
+		\includegraphics[scale=1.5]{./nt.pdf}
+	\end{center}
+\end{enumerate}
+Sometimes we use the diagram
+\begin{center}
+	\includegraphics[scale=1.5]{./nt2.pdf}
+\end{center}
+to indicate that $\eta$ is a morphism form $\textbf{F}$ to $\textbf{G}$.
+\end{definition}}
+\begin{remark}
+\ \\ \adjustbox{scale=1.25, center}{
+% https://tikzcd.yichuanshen.de/#N4Igdg9gJgpgziAXAbVABwnAlgFyxMJZABgBpiBdUkANwEMAbAVxiRAEEQBfU9TXfIRRkATFVqMWbAELdeIDNjwEiI8uPrNWiEAB1dAWzo4AFgCMAZsABiXABTsAlHL5LBq0mOqapO-UdNLG3tpZx5XARUUABZ1b0ltPUNjcysAcXsnFwV+ZSFkWK8JLTZ-FKCMu1DsxUj8sgBGDQS2Gtz3FDUm+JKdNrcogtJu4t8QbnEYKABzeCJQCwAnCAMkMhAcCCQGnrH9NBMsEGoGOjMYBgAFdqiQRaxpkxxspZWkNQ2txABmXcT97AAXjKgSstjs+0OzhOZwu1wGQhADBgFme4RAr1WiFinyQAFY-qVdABjQ7A5Kg4CVSFYaFI2FXG6I5Gol7LLEfTZIHE+f66GA4OgAfU46MxSF+uMQBNGfIFwtkYvZa2oXOx1HOYCg3IAnCcsGBElAIDgcFNjrKiQFUlSuBa4IdWYgALQfU7nRkItgG7CwNlvRDrNUfXlW8pgu36w1sY2m80amBaiXrd1wpnesC+1hKgM7KWShgGo0ms3ahNJl3fdahvwUm22C2pz11DNZ-1YvNqmWa7Uu6J6kAOrBOlNFmMl+P0j3wls6H1YP2E2vWip2nNYgBsqq+AHYo8W42XLcvw8F7Y7nn2YdP03PMwvs-JxYgt1KABz78eHi01pIr9KRoOF7cteaZenebZcBQXBAA
+\begin{tikzcd}
+	A \arrow[dd, "\phi"'] \arrow[rrrr, "\mathbf{G}" description, dotted, bend left=49, shift left=2] \arrow[rr, "\mathbf{F}" description, dotted, bend left] &  & \mathbf{F}(A) \arrow[dd, "\psi=\mathbf{F}(\phi)"] \arrow[rr, "\eta_A"] &  & \mathbf{G}(A) \arrow[dd, "\chi=\mathbf{G}(\phi)"] \\
+	{} \arrow[rr, "\mathbf{F}" description, dotted, shift left=4] \arrow[rrrr, "\mathbf{G}" description, dotted, shift right=4]                              &  & {}                                                                     &  & {}                                                \\
+	B \arrow[rr, "\mathbf{F}" description, dotted, bend right] \arrow[rrrr, "\mathbf{G}" description, dotted, bend right=49]                                 &  & \mathbf{F}(B) \arrow[rr, "\eta_B"]                                     &  & \mathbf{G}(B)                                    
+\end{tikzcd}}
+\end{remark}
+\newpage
+\begin{example}[Determinant]
+	TBA
+\end{example}
+
+%\newpage
+\section{Sheaf and Presheaf}
+\defbox[Sheaf]{\begin{definition}
+	TBA
+\end{definition}}
+\defbox[Presheaf]{\begin{definition}
+	TBA
+\end{definition}}
+%\[
+%\begin{tikzcd}[row sep=huge]
+%	\mathcal{A}
+%	\arrow[r, bend left=65, "F"{name=F}]
+%	\arrow[r, "G"{inner sep=0,fill=white,anchor=center,name=G}]
+%	\arrow[r, bend right=65, "H"{name=H, swap}]
+%	\arrow[from=F.south-|G,to=G,Rightarrow,shorten=2pt,"\alpha"] 
+%	\arrow[from=G,to=H.north-|G,Rightarrow,shorten=2pt,"\beta"] &
+%	\mathcal{B}.
+%\end{tikzcd} 
+%\]
+%\[
+%\begin{tikzcd}[row sep=huge]
+%	\mathscr{A} \arrow[r, "F"{sloped,above},"\hspace{0.15cm}\scalebox{1.5}{$\Downarrow$} \alpha"{sloped,below}, bend left=70] \arrow[r, "\hspace{0.15cm}\scalebox{1.5}{$\Downarrow$} \beta", "H"{sloped,below}, bend right=70] \arrow[r, "G" description] & \mathscr{B}
+%\end{tikzcd}
+%\]
+
+\end{document}

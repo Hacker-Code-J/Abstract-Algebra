@@ -1,0 +1,446 @@
+\documentclass[11pt,openany]{article}
+
+\input{algebra-preamble}
+\usepackage{commath}
+\usepackage{caption}
+%Tikzpicture
+\usepackage{tikz}
+\usepackage{tikz-3dplot}
+\usepackage{tikz-cd}
+\usetikzlibrary{
+	3d, % For 3D drawing
+	angles,
+	arrows,
+	arrows.meta,
+	backgrounds,
+	bending,
+	calc,
+	decorations.pathmorphing,
+	decorations.pathreplacing,
+	decorations.markings,
+	fit,
+	matrix,
+	patterns,
+	patterns.meta,
+	positioning,
+	quotes,
+	shadows,
+	shapes,
+	shapes.geometric
+}
+\input{../preamble/tcolorbox}
+
+\newcommand{\arrowboth}[1][]{\arrow[#1, bend left=15, myarrow]\arrow[bend left=15, myarrow, from=#1]}
+\newcommand{\topology}{\mathcal{T}}
+
+\usepackage{multirow}
+\usepackage{xcolor,cancel}
+
+\newcommand\hcancel[2][black]{\setbox0=\hbox{$#2$}%
+	\rlap{\raisebox{.45\ht0}{\textcolor{#1}{\rule{\wd0}{1pt}}}}#2} 
+
+\newcommand{\img}{\textnormal{Img}}
+\renewcommand{\ker}{\textnormal{Ker}}
+
+\setstretch{1.25}
+\begin{document}
+\pagenumbering{arabic}
+\begin{center}
+\huge\textbf{Localization of Rings}\\
+\vspace{0.5em}
+%	\Large\quad{대수학의 아름다움 서브-스터디}\\
+\vspace{0.5em}
+\normalsize{\today}\\
+\end{center}
+	
+%\section*{Localization}
+\defbox[Multiplicatively Closed Subset]{\begin{definition*}
+	Let $(R,+,\cdot)$ be a ring with unity $1_R$. Then $S\subseteq R$ is \textbf{multiplicatively closed subset} if and only if \begin{enumerate}
+		\item $1_R\in S$;
+		\item $x,y\in S\implies x\cdot y\in S$.
+	\end{enumerate}
+\end{definition*}}
+\begin{example*} Recall that
+	\begin{tcolorbox}[colback=white]
+			A prime ideal $P\subsetneq R$ is an ideal such that: \[
+		\forall r,s\in R:\left[rs\in P\implies r\in P\lor s\in P\right].
+		\]
+	\end{tcolorbox}
+	Let $R$ be a ring and $P\lhd R$ be a prime ideal of $R$. Consider \[
+	S:=R\setminus P=\set{r\in R:r\notin P}.
+	\] We claim that $S$ is a multiplicatively closed subset of $R$: \begin{enumerate}
+		\item ($1\in S$) Assume that $1\in P$ then \[
+		r\cdot 1=r\in P
+		\] for any $r\in R$. This means that every element $r\in R$ is also in $P$; \ie, $P=R$. It contradicts the fact the $P\subsetneq R$. We conclude that $1\notin P$. Thus \[
+		1\notin P\implies 1\in R\setminus P=S.
+		\]
+		\item ($x,y\in S\implies xy\in S$) Let $s_1,s_2\in S=R\setminus P$. By the definition of $S$, we have \[
+		s_1\notin P\quad\text{and}\quad s_2\notin P.
+		\] From the definition of a prime ideal, we know that \[
+		[rs\in P\Rightarrow r\in P\lor s\in P]\equiv[r\notin P\land s\notin P\Rightarrow rs\notin P].
+		\] Thus $s_1s_2\notin P$, and so \[
+		s_1s_2\notin P\implies s_1s_2\in R\setminus P=S.
+		\]
+	\end{enumerate}
+\end{example*}
+\vspace{24pt}
+\defbox[Localization of Rings]{\begin{definition*}
+	Let $R$ be a commutative ring, and let $S\subseteq R$ be a \textit{multiplicatively closed subset} of $R$. Then \[
+	(r_1,s_1)\sim (r_2,s_2)\iff\exists t\in S\quad \text{s.t.}\quad t(r_1s_2-r_2s_1)=0
+	\] is an equivalence relation on $R\times S$. The \textbf{localization of $R$ at $S$} is a set of all equivalence classes \[
+	S^{-1}R:=\set{\left[(r,s)\right]:r\in R, s\in S}=\set{\frac{r}{s}:r\in R,s\in S}
+	\] It is a ring with the addition and multiplication \[
+	\frac{r_1}{s_1}+\frac{r_2}{s_2}:=\frac{r_1s_2+r_2s_1}{s_1s_2}\quad \text{and}\quad \frac{r_1}{s_1}\frac{r_2}{s_2}:=\frac{r_1r_2}{s_1s_2}.
+	\] Note that the additive identity is $\frac{0}{1}$ and multiplicative identity $\frac{1}{1}$.
+\end{definition*}}
+\begin{example*}
+	The localization of $\Z$ at $\Z^*(=\Z\setminus\set{0})$ is a ring \[
+	\Q=(\Z^*)^{-1}\Z=\set{\frac{a}{b}:a\in\Z,b\in\Z^*}
+	\] with \[
+	\frac{a}{b}\sim\frac{c}{d}\iff ad=bc.
+	\]
+\end{example*}
+\vspace{12pt}
+%\newpage
+\begin{note}
+	Consider $R=\Z/6\Z$ and \[
+	S=\{2^0,2^1,2^2,2^3,\dots\}=\set{1,2,4}\subseteq\Z/6\Z.
+	\] Then, for any $r\in R$, we have \[
+	\frac{r}{2}=\frac{4}{4}\cdot\frac{r}{2}=\frac{4\cdot r}{4\cdot 2}=\frac{4\cdot r}{2}=\frac{2}{2}\cdot\frac{2\cdot r}{1}=\frac{2\cdot r}{1}\quad\text{in}\quad S^{-1}R.
+	\] This implies \[
+	\frac{r}{2^j}=\frac{2^j\cdot r}{1}\quad\text{for}\quad j=0,1,2,\cdots,
+	\] so that $\displaystyle\frac{1}{1}=\frac{1}{1}$, $\displaystyle\frac{1}{2}=\frac{2}{1}$ and $\displaystyle\frac{1}{4}=\frac{4}{1}$; \ie, every fraction of $S^{-1}R$ has the form $\displaystyle\frac{r}{1}$. Moreover, \[
+	\frac{3}{1}=\frac{3\cdot 2}{1\cdot 2}=\frac{0}{2}=\frac{0}{1}\implies\frac{4}{1}=\frac{1}{1}\quad\text{and}\quad\frac{5}{1}=\frac{2}{1}.
+	\] Thus, we have \[
+	S^{-1}R=\set{\frac{0}{1},\frac{1}{1},\frac{2}{1}}\simeq\Z/3\Z.
+	\]
+	
+	\vspace{24pt}
+	\noindent
+	\textcolor{blue}{\bf Issue with the Condition ``$r_1s_2-r_2s_1=0$'' in $\Z/6\Z$}\\
+	\begin{itemize}
+		\item Consider $\displaystyle\frac{4}{1}=\frac{1}{1}$. \[
+		r_1s_2-r_2s_1=4\cdot 1-1\cdot 1 = 3.
+		\] We would need some $t\in S$ such that $t\cdot 3=0\in \Z/6\Z$. Thus, we choose $t=2\in S=\set{1,2,4}$.\vspace{12pt}
+		\item Consider $\displaystyle\frac{5}{1}=\frac{2}{1}$. \[
+		5\cdot 1-2\cdot 1 = 3.
+		\] Thus, we choose $2\in S$.\vspace{12pt}
+		\item Consider \[
+		\frac{3}{2}=\frac{1}{2}\cdot\frac{3}{1}=\frac{2}{1}\cdot\frac{3}{1}=\frac{3\cdot 2}{1}=\frac{0}{1}.
+		\] That is, $\displaystyle\frac{3}{2}=\frac{0}{1}$. Then \[
+		3\cdot 1-0\cdot 2 = 3.
+		\] Thus, we choose $2\in S$.
+	\end{itemize}
+\end{note}
+
+
+\newpage
+\begin{tikzpicture}
+	% Drawing axes
+	\draw[thick,->] (-3,0) -- (3,0) node[right] {$x$};
+	\draw[thick,->] (0,-3) -- (0,3) node[above] {$y$};
+	
+	% Labeling axes
+	\node at (2.5,-0.3) {$x$-axis $(y = 0)$};
+	\node at (0.5,2.5) [rotate=90] {$y$-axis $(x = 0)$};
+	
+	% Adding a description
+	\node at (0,-3.5) {Union of the $x$-axis and $y$-axis where $xy = 0$};
+\end{tikzpicture}
+
+\begin{tikzpicture}
+	% Drawing axes
+	\draw[thick,->] (-3,0) -- (3,0) node[right] {$x$};
+	\draw[thick,->] (0,-3) -- (0,3) node[above] {$y$};
+	
+	% Highlighting the y-axis
+	\draw[ultra thick, blue] (0,-3) -- (0,3);
+	
+	% Adding a description
+	\node at (3,-3.5) {Localization at $S = R \setminus (x)$, focusing on the $y$-axis};
+\end{tikzpicture}
+
+\begin{tikzpicture}
+	% Draw axes
+	\draw[thick,->] (-3,0) -- (3,0) node[right] {$x$-axis};
+	\draw[thick,->] (0,-3) -- (0,3) node[above] {$y$-axis};
+	
+	% Labeling axes
+	\node at (3,-0.5) {$(y = 0)$};
+	\node at (0.5,2.5) [rotate=90] {$(x = 0)$};
+	
+	% Adding a description
+	\node at (0,-3.5) {Representation of $\mathbb{C}[x,y]/(xy)$};
+\end{tikzpicture}
+
+\begin{tikzpicture}
+	% Draw axes
+	\draw[thick,->] (-3,0) -- (3,0) node[right] {};
+	\draw[thick,->, blue] (0,-3) -- (0,3) node[above] {$y$-axis};
+	
+	% Highlight y-axis in blue to signify localization at (x)
+	\node[blue] at (0.5,2.5) [rotate=90] {Localized at $(x)$};
+	
+	% Adding a description
+	\node at (0,-3.5) {Focus on $y$-axis in $S^{-1}R$ where $x$ is zero};
+\end{tikzpicture}
+\newpage
+\noindent Let \begin{itemize}
+	\item $R=\C[x]$
+	\item $S=\set{1,(x-1),(x-1)^2,\dots}=\set{(x-1)^n:n\in\Z_{\geq 0}}$.
+	\item $S^{-1}R=\displaystyle\set{\frac{f(x)}{(x-1)^n}:f(x)\in\C[x]}$.
+\end{itemize}
+In $S^{-1}R$, $(x-1)$ is invertible, \ie, $\exists\frac{1}{x-1}\in S^{-1}R$ s.t. $(x-1)\cdot\frac{1}{x-1}=1$.
+\begin{itemize}
+	\item Consider $0\neq\frac{f(x)}{(x-1)^n}\in S^{-1}R$.
+	\item Then \[
+	\exists g(x)\in\C[x]\quad\text{such that}\quad f(x)=(x-1)^ng(x)\quad\text{with}\quad g(1)\neq 0.
+	\]
+	\item Thus \[
+	\left(\frac{f(x)}{(x-1)^n}\right)^{-1}=\frac{(x-1)^n}{(x-1)^ng(x)}=\frac{1}{g(x)}\quad\text{with}\quad g(1)\neq 0.
+	\]
+\end{itemize}
+
+\begin{align*}
+	\frac{1}{x-4}&=\frac{1}{x-1-3}\\
+	&=\frac{1}{(x-1)}\quad(\because \frac{1}{a-b}=\frac{1}{a(1-b/a)}=\frac{1}{a}\sum_{n=0}^{\infty}\left(\frac{b}{a}\right)^n\ \text{with}\ a\neq 1)\\
+	&=\frac{}{}
+\end{align*}
+
+\[
+\frac{1}{x-4}=\frac{1}{x-1-3}=\frac{1}{x-1}\cdot\frac{1}{(1-\frac{3}{x-1})}
+\]
+
+%\probox{\begin{proposition}
+%	The localization $S^{-1}R$ is the zero ring if and only if $0\in S$. That is, \[
+%	0\in S\iff S^{-1}R=\set{0}
+%	\]
+%\end{proposition}}
+%\begin{proof}
+% \begin{itemize}
+% 	\item[$(\Rightarrow)$] Assume that $0\in S$. Consider $\frac{r}{s}\in S^{-1}R$, where $r\in R$ and $s\in S$. We claim that $\frac{r}{s}=0\in S^{-1}R$.
+% \end{itemize}
+%\end{proof}
+	
+%\newpage	
+%\section*{Rings and Ideals}
+%
+%\thmbox{\begin{theorem*}
+%Let $R$ and $S$ be rings and let $\phi:R\to S$ be a ring homomorphism. Then, \begin{itemize}
+%	\item the image of $\phi$ is a subring of $S$, $\img(\phi)\leq S$;
+%	\item $\ker(\phi)$ is an ideal of $R$, $\ker(\phi)\leq R$.
+%\end{itemize}
+%\end{theorem*}}
+%\begin{proof}
+%Let $s_1,s_2\in\img(\phi)$. Then \[
+%\exists r_1,r_2\in R\ \text{such that}\ s_1=\phi(r_1)\ \text{and}\ s_2=\phi(r_2).
+%\] By the homomorphism property, we know \begin{align*}
+%	s_1+s_2&=\phi(r_1)+\phi(r_2)=\phi(r_1+r_2)\quad \text{and}\quad
+%	s_1s_2=\phi(r_1)\phi(r_2)=\phi(r_1r_2).
+%\end{align*} Hence $s_1+s_2\in\img(\phi)$ and $s_1s_2\in\img(\phi)$. Moreover, $1\in\img(\phi)$ because $\phi(1)=1$, and so $\img(\phi)\leq S$.
+%
+%Suppose $r_1,r_2\in\ker(\phi)$. Since $\phi(r_1)=0=\phi(r_2)$, \[
+%\phi(r_1+r_2)=0
+%\] which means $r_1+r_2\in\ker\phi$. Let $a\in R$ and $r\in\ker(\phi)$. Then \[
+%\phi(ar)=\phi(a)\phi(r)=\phi(a)0=0,
+%\] and so $ar\in\ker(\phi)$.
+%\end{proof}
+%
+%\newpage
+%\begin{note}[Ideal]
+%	Let $I\subseteq R$. \[
+%	I\lhd R\iff\begin{cases}
+%		(I,+)\leq (R,+) \\
+%		\\
+%		\forall r\in R:rI\subseteq I
+%	\end{cases}
+%	\]
+%\end{note}
+%\thmbox{\begin{theorem*}
+%	Let $\phi:R\to S$ be a ring homomorphism. \[
+%	J\lhd S\implies \phi^{-1}[J]\lhd R.
+%	\]
+%\end{theorem*}}
+%\begin{proof}
+%	Note that $\phi^{-1}[J]:=\set{r\in R: \phi(r)\in J}$, that is, \[
+%	a\in\phi^{-1}[J]\iff \phi(a)\in J
+%	\].
+%	Let $r_1,r_2\in\phi^{-1}[J]$, \ie, $\phi(r_1),\phi(r_2)\in J$. Then \[
+%	\phi(r_1-r_2)=\phi(r_1)-\phi(r_2)\in J
+%	\] because $J$ is an ideal of $S$. Thus, $r_1-r_2\in\phi^{-1}[J]$.
+%	
+%	Suppose $a\in\phi^{-1}[J]$ and $r\in R$. Then \begin{align*}
+%		\phi(ra)=\phi(r)\phi(a)\in J,
+%	\end{align*} and this implies $ra\in\phi^{-1}[J]$.
+%\end{proof}
+%
+%\thmbox{\begin{theorem*}
+%	Let $I$ be an ideal of a ring $R$. There is a bijection between the set of ideals of $R$ containing $I$ and the set of ideals of $R/I$.
+%\end{theorem*}}
+%\begin{proof}
+%	 Let \[
+%	\mathcal{L}_I(R):=\set{J\subseteq R:I\subseteq J\ \text{and}\ J\lhd R}
+%	\] is the set of ideals of $R$ that contain $I$, and let \[
+%	\mathcal{L}(R/I):=\set{K\subseteq R/I: K\lhd R/I}
+%	\] is the set of ideals of the quotient ring $R/I$.
+%	We define a map \[
+%	\fullfunction{\varphi}{\mathcal{L}_I(R)}{\mathcal{L}(R/I)}{J}{J/I=\set{j+I:j\in J}}
+%	\] and \[
+%	\fullfunction{\psi}{\mathcal{L}(R/I)}{\mathcal{L}_I(R)}{K}{\pi^{-1}[K]=\set{r\in R:r+I\in K}}.
+%	\] We must show that \begin{itemize}
+%		\item $\psi[\phi[J]]=J$ for all $J\subseteq R$ s.t. $I\subseteq J$;
+%		\item $\phi[\psi[K]]=K$ for all $K\subseteq R/I$.
+%	\end{itemize}
+%	\begin{enumerate}[(i)]
+%		\item Let $J\in\mathcal{L}_I(R)$, \ie, $I\subseteq J\subseteq R$ and $J\lhd R$. Then \begin{align*}
+%			\phi[J] &= J/I=\set{r+I:r\in J},	
+%		\end{align*} and so \begin{align*}
+%			\psi[\phi[J]] &= \psi[J/I]\\
+%			&=\set{r\in R:r+I\in J/I},\\
+%			&=\set{r\in R:r\in J},\\
+%			&= J.
+%		\end{align*}
+%		\item Let $K\in\mathcal{L}(R/I)$, \ie, $K\subseteq R/I$ and $K\lhd R/I$. Then \begin{align*}
+%			\psi[K] &= \pi^{-1}[K]=\set{r\in R:r+I\in K},	
+%		\end{align*} and so \begin{align*}
+%			\phi[\psi[K]] &= \phi[\pi^{-1}[K]]\\
+%			&=\set{r+I:r+\pi^{-1}[K]},\\
+%			&=\set{r+I:r+I\in K},\\
+%			&= K.
+%		\end{align*}
+%	\end{enumerate}
+%\end{proof}
+%
+%\newpage
+%The quotient ring \( C[x,y]/\langle xy \rangle \), where \( C[x, y] \) is the ring of polynomials with complex coefficients, represents the coordinate ring of the set defined by the equation \( xy = 0 \) in \( \mathbb{R}^2 \).
+%
+%\section{Proof}
+%
+%\subsection{Definition of the Quotient Ring}
+%The quotient ring \( C[x,y]/\langle xy \rangle \) is formed by the set of cosets of the ideal \( \langle xy \rangle \) in \( C[x, y] \). A coset of a polynomial \( f(x, y) \) in this ring is given by:
+%\[
+%f(x, y) + \langle xy \rangle = \{f(x, y) + g(x, y) \cdot xy \mid g(x, y) \in C[x, y]\}.
+%\]
+%
+%\subsection{Vanishing of \( xy \)}
+%The ideal \( \langle xy \rangle \) consists of all polynomials in \( C[x, y] \) that can be written as \( h(x, y) \cdot xy \) for some \( h(x, y) \in C[x, y] \). Polynomials in this ideal vanish on the set \( \{(x, y) \in \mathbb{R}^2 \mid xy = 0\} \), which includes every point on the \( x \)-axis and \( y \)-axis.
+%
+%\subsection{Isomorphism to the Coordinate Ring}
+%Every polynomial \( f(x, y) \) that does not contain the monomial \( xy \) can be uniquely represented in \( C[x,y]/\langle xy \rangle \). Thus, we can reduce any polynomial \( f(x, y) \) by removing terms that involve \( xy \), leaving terms only dependent on \( x \) or \( y \) alone. 
+%
+%This reduction maps \( C[x,y]/\langle xy \rangle \) onto the coordinate ring of \( \{(x, y) \in \mathbb{R}^2 \mid xy = 0\} \). Therefore, the ring \( C[x,y]/\langle xy \rangle \) is isomorphic to the ring of functions on the union of the \( x \)-axis and \( y \)-axis, capturing their algebraic structure.
+%
+%\subsection{Conclusion}
+%We have shown that \( C[x,y]/\langle xy \rangle \) is precisely the coordinate ring for the variety given by \( xy = 0 \) in \( \mathbb{R}^2 \). This proof demonstrates the direct correspondence between the algebraic structure of the quotient ring and the geometric structure of the graph \( xy = 0 \).
+%
+%\newpage
+%\section{Introduction}
+%We analyze the quotient ring \( C[x,y]/\langle xy \rangle \) and demonstrate its correspondence to the geometric figure defined by \( xy = 0 \) in \( \mathbb{R}^2 \).
+%
+%\section{Preliminary Lemma}
+%
+%\begin{lemma}
+%	Any polynomial \( f(x, y) \in C[x, y] \) can be uniquely written as \( f(x, y) = q(x, y) \cdot xy + r(x, y) \) where \( r(x, y) \) is a polynomial in \( x \) and \( y \) containing no terms of the form \( x^a y^b \) with \( ab \geq 1 \).
+%\end{lemma}
+%\begin{proof}
+%	This decomposition follows from the division algorithm in the polynomial ring \( C[x, y] \), where \( xy \) serves as the divisor. The remainder \( r(x, y) \), containing no terms divisible by \( xy \), is unique for given \( f(x, y) \).
+%\end{proof}
+%
+%\section{Main Theorem}
+%\begin{theorem}
+%	The quotient ring \( C[x,y]/\langle xy \rangle \) is isomorphic to the ring of polynomial functions on the set defined by \( xy = 0 \) in \( \mathbb{R}^2 \).
+%\end{theorem}
+%
+%\begin{proof}
+%	\textbf{Step 1: Reduction modulo \(\langle xy \rangle\).}
+%	Given any \( f(x, y) \in C[x, y] \), its equivalence class in \( C[x,y]/\langle xy \rangle \) is represented by \( r(x, y) \) from the above lemma. The ideal \( \langle xy \rangle \) collapses all terms involving \( xy \) or its powers.
+%	
+%	\textbf{Step 2: Surjectivity and Injectivity.}
+%	Define the map \( \phi: C[x,y]/\langle xy \rangle \to \{ \text{functions on } \mathbb{R}^2 \text{ vanishing on } xy = 0\} \) by \( \phi([f]) = f|_{xy=0} \). This map is surjective as any function vanishing on \( xy = 0 \) can be represented by a polynomial in \( C[x,y] \). Injectivity follows since any nonzero polynomial not in \( \langle xy \rangle \) does not vanish identically on the axes.
+%	
+%	\textbf{Step 3: Conclusion.}
+%	Hence, the isomorphism is established, proving that \( C[x,y]/\langle xy \rangle \) models the algebraic structure of the coordinate axes in \( \mathbb{R}^2 \).
+%\end{proof}
+%
+%\section{Geometric Interpretation}
+%The following TikZ picture illustrates the graph \( xy = 0 \) in \( \mathbb{R}^2 \).
+%
+%\begin{center}
+%	\begin{tikzpicture}
+%		\draw[thin,gray!40] (-3,-3) grid (3,3);
+%		\draw[<->] (-3,0)--(3,0) node[right]{$x$};
+%		\draw[<->] (0,-3)--(0,3) node[above]{$y$};
+%		\draw[line width=1pt, blue] (-3,0)--(3,0) node[right] {};
+%		\draw[line width=1pt, blue] (0,-3)--(0,3) node[above] {};
+%	\end{tikzpicture}
+%\end{center}
+%
+%\section{Conclusion}
+%We confirmed that \( C[x,y]/\langle xy \rangle \) precisely captures the algebraic and geometric properties of the graph \( xy = 0 \) in \( \mathbb{R}^2 \), proving its utility in connecting algebraic concepts with geometric interpretations.
+%
+%\newpage
+%\section{Introduction}
+%This document provides a detailed analysis of the quotient ring \( C[x,y]/\langle xy \rangle \) through the lens of ideal correspondence, illustrating the relationship between the algebraic and geometric representations.
+%
+%\section{Background}
+%In any ring \( R \), the ideals of the quotient ring \( R/I \) correspond bijectively to the ideals of \( R \) that contain \( I \). For \( R = C[x,y] \) and \( I = \langle xy \rangle \), we explore this correspondence to gain insight into the algebraic structure of \( R/I \).
+%
+%\section{Main Theorem}
+%\begin{theorem}
+%	There is a one-to-one correspondence between the ideals of \( C[x,y] \) containing \( \langle xy \rangle \) and the ideals of the quotient ring \( C[x,y]/\langle xy \rangle \).
+%\end{theorem}
+%
+%\begin{proof}
+%	\textbf{Correspondence Mapping:} Define the map \( \Phi: \{\text{Ideals in } C[x,y] \text{ containing } \langle xy \rangle\} \rightarrow \{\text{Ideals in } C[x,y]/\langle xy \rangle\} \) by \( \Phi(J) = J/\langle xy \rangle \).
+%	
+%	\textbf{Well-definedness:} For any ideal \( J \) in \( C[x,y] \) containing \( \langle xy \rangle \), the set \( J/\langle xy \rangle \) forms an ideal in \( C[x,y]/\langle xy \rangle \) because the cosets of elements in \( J \) respect addition and multiplication by elements in \( C[x,y]/\langle xy \rangle \).
+%	
+%	\textbf{Injectivity:} Suppose \( \Phi(J) = \Phi(K) \) for two ideals \( J, K \) containing \( \langle xy \rangle \). Then \( J/\langle xy \rangle = K/\langle xy \rangle \), implying \( J = K \).
+%	
+%	\textbf{Surjectivity:} For any ideal \( \overline{J} \) in \( C[x,y]/\langle xy \rangle \), the preimage under the quotient map, \( \pi^{-1}(\overline{J}) \), is an ideal in \( C[x,y] \) containing \( \langle xy \rangle \). The map \( \Phi(\pi^{-1}(\overline{J})) = \overline{J} \), showing surjectivity.
+%	
+%	\textbf{Conclusion:} This bijection demonstrates that studying the ideals of \( C[x,y]/\langle xy \rangle \) is equivalent to studying the ideals of \( C[x,y] \) that contain \( \langle xy \rangle \). This correspondence connects the algebraic structure within \( C[x,y] \) directly to the geometric interpretation of the variety \( xy = 0 \) in \( \mathbb{R}^2 \).
+%\end{proof}
+%
+%\section{Geometric Interpretation}
+%The geometric counterpart of this algebraic structure corresponds to the coordinate axes in \( \mathbb{R}^2 \), where the product \( xy = 0 \). This is a direct consequence of the fact that \( xy \) vanishes on both the \( x \)-axis and \( y \)-axis, providing a clear visual representation of the algebraic concept discussed.
+%
+%\section{Conclusion}
+%The algebraic framework provided by \( C[x,y]/\langle xy \rangle \) captures the geometric essence of the axes in \( \mathbb{R}^2 \), proving that the algebraic decompositions reflect tangible geometric realities.
+%\newpage
+%
+%\section{Introduction}
+%This document provides a proof of the correspondence between the ideals of a ring \( R \) and the ideals of its quotient ring \( R/I \). This correspondence is foundational in understanding the algebraic structure of quotient rings.
+%
+%\section{Theorem}
+%\begin{theorem}
+%	Let \( R \) be a ring and \( I \) an ideal in \( R \). There is a one-to-one correspondence between the ideals of \( R \) that contain \( I \) and the ideals of the quotient ring \( R/I \).
+%\end{theorem}
+%
+%\begin{proof}
+%	Define a map \( \Phi \) from the set of ideals of \( R \) that contain \( I \), denoted as \( \text{Id}(R, I) \), to the set of ideals of \( R/I \), denoted as \( \text{Id}(R/I) \), by:
+%	\[
+%	\Phi(J) = J/I.
+%	\]
+%	
+%	\textbf{Well-definedness:} \( J/I \) is an ideal in \( R/I \) because for any cosets \( a+I, b+I \in J/I \) and \( r+I \in R/I \),
+%	\[
+%	(a+I) + (b+I) = (a+b) + I \in J/I,
+%	\]
+%	and
+%	\[
+%	(r+I)(a+I) = ra + I \in J/I,
+%	\]
+%	since \( a+b, ra \in J \).
+%	
+%	\textbf{Injectivity:} Suppose \( \Phi(J) = \Phi(K) \) for \( J, K \in \text{Id}(R, I) \), meaning \( J/I = K/I \). If \( a \in J \), then \( a+I \in K/I \), so \( a \in K \) and similarly for \( K \), hence \( J = K \).
+%	
+%	\textbf{Surjectivity:} For any ideal \( \overline{J} \) in \( R/I \), the preimage \( \pi^{-1}(\overline{J}) \) (where \( \pi: R \to R/I \) is the quotient map) is an ideal in \( R \) containing \( I \), and \( \Phi(\pi^{-1}(\overline{J})) = \overline{J} \).
+%	
+%	\textbf{Conclusion:} This establishes the bijective correspondence, thereby illustrating the direct link between the ideals in \( R \) containing \( I \) and the ideals in \( R/I \).
+%\end{proof}
+%
+%\section{Conclusion}
+%The algebraic framework provided by the correspondence between the ideals in \( R \) and \( R/I \) deepens our understanding of the structure and behavior of quotient rings, which is pivotal in both algebraic theory and practical applications.
+
+\end{document}
